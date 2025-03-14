@@ -1,14 +1,10 @@
 # airVipClient
 
-Comment installer ?
+## 📥 Comment Installer ?
 
+### 🔹 Voici les étapes d'installation :
 
-# Voici les étape d'installation
-
-git clone https://github.com/Mudy7/airVipClient.git \n
-cd airvip 
-\n npm i 
-
-# voici comment run le site 
-
-npm run dev
+```sh
+git clone https://github.com/Mudy7/airVipClient.git  
+cd airvip  
+npm i  
