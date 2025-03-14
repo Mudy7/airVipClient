@@ -7,4 +7,11 @@
 ```sh
 git clone https://github.com/Mudy7/airVipClient.git  
 cd airvip  
-npm i  
+npm i
+
+```
+### 🔹 Comment run le site  :
+
+```sh
+npm run dev
+```
