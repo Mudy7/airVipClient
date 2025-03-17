@@ -28,28 +28,39 @@ class Aeroport implements JsonSerializable
         return $this->code;
     }
 
-    public function setId(int $id): void {
-        $this->id = $id;
+    public function setCode(int $code): void 
+    {
+        $this->code = $code;
     }
 
-    public function getName(): string
+    public function getVille(): string
     {
-        return $this->name;
+        return $this->ville;
     }
 
-    public function setName(string $name): void
+    public function setVille(string $ville): void
     {
-        $this->name = $name;
+        $this->ville = $ville;
     }
 
-    public function getPrice(): float
+    public function getPays(): string
     {
-        return $this->price;
+        return $this->pays;
     }
 
-    public function setPrice(float $price): void
+    public function setPays(string $pays): void
     {
-        $this->price = $price;
+        $this->pays = $pays;
+    }
+    
+    public function getDistanceMTL(): int
+    {
+        return $this->distanceMTL;
+    }
+
+    public function setDistanceMTL(int $distanceMTL): void
+    {
+        $this->distanceMTL = $distanceMTL;
     }
 
     public function addFeature(Feature $feature): void
@@ -68,26 +79,21 @@ class Aeroport implements JsonSerializable
     public function __toString(): string
     {
         return sprintf(
-            "[#%d] %s - %s @%.2f$ (%d en stock)",
-            $this->id,
-            $this->name,
-            $this->category,
-            $this->price,
-            $this->quantity
+            "[#%d] %s - %s à %.2f km de Montréal",
+            $this->code,
+            $this->ville,
+            $this->pays,
+            $this->distanceMTL
         );
     }
-
     
     public function jsonSerialize(): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'category' => $this->category,
-            'price' => $this->price,
-            'image' => $this->image, 
-            'description' => $this->description, 
-            'quantity' => $this->quantity,
+            'code' => $this->code,
+            'ville' => $this->ville,
+            'pays' => $this->pays,
+            'distanceMTL' => $this->distanceMTL
         ];
     }
 }
