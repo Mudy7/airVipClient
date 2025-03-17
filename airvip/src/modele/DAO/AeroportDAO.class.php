@@ -6,7 +6,7 @@
 include_once(__DIR__ . "/DAO.interface.php");
 include_once(__DIR__ . "/../product.class.php");
 
-class ProductDAO implements DAO {
+class AeroportDAO implements DAO {
 
     /**
      * Cette méthode retourne l'objet dont la clé primaire a été reçue en paramètre
