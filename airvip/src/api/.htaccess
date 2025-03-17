@@ -1,0 +1,12 @@
+# Test RewriteRule
+RewriteEngine On
+
+# Ne pas réécrire les requêtes pour les fichiers statiques
+RewriteCond %{REQUEST_URI} !(\.png|\.jpg|\.webp|\.gif|\.jpeg|\.zip|\.css|\.svg|\.js|\.pdf)$
+
+# Si la requête ne concerne pas un fichier ou dossier existant
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rediriger uniquement les requêtes API vers routes.php
+RewriteRule ^(.*)$ routes.php [QSA,L]
