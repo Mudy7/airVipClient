@@ -1,7 +1,7 @@
 <?php
 // Inclusion des classes nécessaires pour la gestion des produits
-include_once("../modele/DAO/ProductDAO.class.php");
-include_once("../modele/Product.class.php");
+include_once("../modele/DAO/AeroportDAO.class.php");
+include_once("../modele/Aeroport.class.php");
 
 // débogage***********
 ini_set('display_errors', 1);
@@ -9,37 +9,37 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 //********************* */
 
-class RestControllerProduct {
+class RestControllerAeroport {
   
     private string $requestMethod;
-    private ?int $productId;                                             
+    private ?int $aeroportId;                                             
 
-    public function __construct($requestMethod, $productId){
+    public function __construct($requestMethod, $aeroportId){
         $this->requestMethod = $requestMethod;
-        $this->productId = $productId;
+        $this->aeroportId = $aeroportId;
     }
 
     public function processRequest(){
         // Lis la méthode HTTP et appelle la fonction correspondante
         switch($this->requestMethod){
             case 'GET':
-                if($this->productId){
-                    $this->getProduct($this->productId);
+                if($this->aeroportId){
+                    $this->getAeroport($this->aeroportId);
                 } else {
-                    $this->getAllProducts();
+                    $this->getAllAeroports();
                 }
                 break;
             case 'POST':
-                $this->createProductFromRequest();
+                $this->createAeroportFromRequest();
                 break;
             case 'PUT':
-                if($this->productId){
-                    $this->updateProductFromRequest($this->productId);
+                if($this->aeroportId){
+                    $this->updateAeroportFromRequest($this->aeroportId);
                 }
                 break;
             case 'DELETE':
-                if($this->productId){
-                    $this->deleteProductFromRequest($this->productId);
+                if($this->aeroportId){
+                    $this->deleteAeroportFromRequest($this->aeroportId);
                 }
                 break;
             default:
@@ -48,48 +48,44 @@ class RestControllerProduct {
         }
     } 
 
-    private function getAllProducts(){
-        $products = ProductDAO::findAll();
-        $this->responseJson(200, $products);
+    private function getAllAeroports(){
+        $aeroports = AeroportDAO::findAll();
+        $this->responseJson(200, $aeroports);
     }
 
-    private function getProduct($id){
-        $prod = ProductDAO::findById($id);
-        if($prod){
-            $this->responseJson(200, $prod);
+    private function getAeroport($id){
+        $aero = AeroportDAO::findById($id);
+        if($aero){
+            $this->responseJson(200, $aero);
         } else {
             $this->notFoundResponse();
         }
     }
 
-    private function createProductFromRequest(){
+    private function createAeroportFromRequest(){
         $jsonData = json_decode(file_get_contents('php://input'), true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             return $this->unprocessableEntityResponse(); // Vérifier erreur JSON
         }        
-        if($this->validateProduct($jsonData)){
-            $product = new Product(null, $jsonData['name'], $jsonData['price'],
-                                 $jsonData['image'], $jsonData['category'], $jsonData['description'],
-                                 $jsonData['quantity']);
-            ProductDAO::save($product);
-            return $this->responseJson(201, $product->getId());
+        if($this->validateAeroport($jsonData)){
+            $aero = new Aeroport(null, $jsonData['ville'], $jsonData['pays'],
+                                 $jsonData['distanceMTL']);
+            AeroportDAO::save($aero);
+            return $this->responseJson(201, $aero->getId());
         } else {
             return $this->serverErrorResponse();
         }
     }
 
-    private function updateProductFromRequest($id){
-        $product = ProductDAO::findById($id);
-        if($product){
+    private function updateAeroportFromRequest($id){
+        $aero = AeroportDAO::findById($id);
+        if($aero){
             $data = json_decode(file_get_contents('php://input'), true);
-            if($this->validateProduct($data)){
-                $product->setName($data['name']);
-                $product->setPrice($data['price']);
-                $product->setImage($data['image']);
-                $product->setCategory($data['category']);
-                $product->setDescription($data['description']);
-                $product->setQuantity($data['quantity']);
-                if(ProductDAO::update($product)){
+            if($this->validateAeroport($data)){
+                $aero->setVille($data['ville']);
+                $aero->setPays($data['pays']);
+                $aero->setDistanceMTL($data['distanceMTL']);
+                if(AeroportDAO::update($aero)){
                     $this->responseJson(200, 'mise à jour réussie');
                 }
             }
@@ -98,10 +94,10 @@ class RestControllerProduct {
         }
     }
 
-    private function deleteProductFromRequest($id){
-        $product = ProductDAO::findById($id);
-        if($product){
-            ProductDAO::delete($product);
+    private function deleteAeroportFromRequest($id){
+        $aero = AeroportDAO::findById($id);
+        if($aero){
+            AeroportDAO::delete($aero);
             $this->responseJson(200, 'suppresion réussie');
         } else {
             $this->notFoundResponse();
@@ -110,11 +106,9 @@ class RestControllerProduct {
 
     // Vérification de la validité des données du produit
     private function validateProduct($data) {
-        return !empty($data['name']) && 
-               !empty($data['category']) && 
-               !empty($data['description']) && 
-               isset($data['price']) && is_numeric($data['price']) && $data['price'] > 0 &&
-               (!isset($data['quantity']) || is_int($data['quantity']));
+        return !empty($data['ville']) && 
+               !empty($data['pays']) && 
+               (!isset($data['distanceMTL']) || is_int($data['distanceMTL']));
     }
 
     // Génération des réponses HTTP standardisées
