@@ -4,6 +4,7 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  --color-primary: #f9bb12;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -11,6 +12,18 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+  .text-primary {
+    color: var(--color-primary);
+  }
+  .hover\:bg-primary:hover {
+    background-color: var(--color-primary);
+  }
 }
 
 /* Ensure the body, html, and #app take full screen */
@@ -21,11 +34,50 @@ body,
   padding: 0;
   width: 100vw;
   height: 100vh;
+  background-color: white !important;
+  color: oklch(0.373 0.034 259.733) !important;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.primary-hover {
+  background-color: #f9bb12;
+}
+
+.primary-hover:hover {
+  background-color: #e6a510; /* Slightly darker shade */
+  box-shadow: 0 0 20px rgba(249, 187, 18, 0.6);
+}
+
+.btn-hover {
+  background-color: #f9bb12; /* Primary color */
+  color: white;
+  padding: 12px;
+  width: 100%;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out 0.1s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 5px;
+  text-align: left;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.btn-hover:hover {
+  background-color: #e6a510; /* Slightly darker shade */
+  box-shadow: 0 0 20px rgba(249, 187, 18, 0.6);
+}
+
+.btn-hover:active {
+  transform: scale(0.95);
 }
 
 a {
@@ -47,4 +99,11 @@ h1 {
   width: 100vw !important;
   height: 100vh !important;
   text-align: center;
+}
+
+@media (max-width: 320px) {
+  body {
+    min-width: 320px;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+  }
 }
