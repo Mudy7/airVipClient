@@ -112,6 +112,22 @@
             >
           </div>
           <div class="pt-5 flex flex-col w-full">
+            <label class="text-start pb-2 text-sm">Prénom</label>
+            <input
+              v-model="prenom"
+              placeholder="entrer votre prénom"
+              name="name"
+              class="outline-none w-full rounded-md border-0 py-3 px-5 bg-[#ffffff] text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary"
+              :class="{
+                'ring-red-400': prenomError,
+                'ring-gray-300': !prenomError,
+              }"
+            />
+            <span class="pt-1 text-[12px] text-red" v-if="prenomError">
+              {{ prenomErrorText }}</span
+            >
+          </div>
+          <div class="pt-5 flex flex-col w-full">
             <label class="text-start pb-2 text-sm">Nom</label>
             <input
               v-model="name"
