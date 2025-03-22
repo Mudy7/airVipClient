@@ -1,47 +1,44 @@
 <template>
   <div class="flex items-center justify-center p-6">
     <div
-      class="flex items-center bg-white shadow-md rounded-full px-4 py-2 space-x-3 w-full max-w-4xl border"
+      class="flex items-center bg-white shadow-md rounded-full px-4 space-x-3 w-full max-w-3xl py-1 border border-gray-300"
     >
       <!-- FROM Input -->
       <div class="flex flex-col px-4">
         <label class="text-sm text-start text-black">De</label>
-        <input
-          v-model="from"
-          type="text"
+        <AutoComplete
           placeholder="Location"
-          class="text-sm bg-transparent border-none focus:outline-none"
-        />
+          :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
+          v-model="from"
+          size="small"
+          class="text-sm placeholder-gray-500"
+        ></AutoComplete>
       </div>
+      <div class="border-l border-gray-300 h-8"></div>
 
       <!-- TO Input -->
-      <div class="flex flex-col px-4 py-2">
+      <div class="flex flex-col px-4">
         <label class="text-sm text-start text-black">à</label>
-        <input
+        <AutoComplete
+          placeholder="Location"
+          :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
           v-model="to"
-          type="text"
-          placeholder="Destinations"
-          class="text-sm bg-transparent border-none focus:outline-none"
-        />
+          size="small"
+          class="text-sm placeholder-gray-500"
+        ></AutoComplete>
       </div>
 
+      <div class="border-l border-gray-300 h-8"></div>
       <!-- DEPARTURE DATE -->
       <div class="flex flex-col px-4 py-2 cursor-pointer">
         <label class="text-sm text-start text-black">Departure</label>
-        <VueDatePicker
+        <DatePicker
           v-model="departureDate"
           placeholder="date"
-          class="text-sm"
-        />
-      </div>
-
-      <!-- RETURN DATE -->
-      <div class="flex flex-col px-4 py-2 cursor-pointer">
-        <label class="text-sm text-start text-black">Retour</label>
-        <VueDatePicker
-          v-model="returnDate"
-          placeholder="date"
-          class="text-sm"
+          size="small"
+          style="border: none; box-shadow: none"
+          class="text-sm focus:outline-none"
+          dateFormat="dd/mm"
         />
       </div>
 
@@ -61,12 +58,14 @@
 </template>
 
 <script>
-import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
+import DatePicker from "primevue/datepicker";
+
+import AutoComplete from "primevue/autocomplete";
 
 export default {
   name: "FlightSearchBar",
-  components: { VueDatePicker },
+  components: { DatePicker, AutoComplete },
   data() {
     return {
       from: "",
@@ -98,3 +97,19 @@ export default {
   },
 };
 </script>
+
+<style>
+.p-calendar,
+.p-datepicker,
+.p-inputtext,
+.p-datepicker-panel {
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.p-inputtext::placeholder {
+  color: #6b7280 !important; /* Change to your desired color */
+  opacity: 1; /* Ensure visibility */
+}
+</style>

@@ -1,10 +1,10 @@
 <template>
   <div
-    class="fixed left-0 top-0 h-screen w-16 bg-white flex flex-col border-r border-gray-300 py-4"
+    class="hidden md:flex flex-col w-16 h-screen bg-white border-r border-gray-300 py-4 flex-shrink-0"
   >
-    <!-- Sidebar Menu with Logo included in spacing -->
+    <!-- Sidebar Menu -->
     <nav class="flex flex-col items-center space-y-6">
-      <!-- Logo (Now part of the menu items) -->
+      <!-- Logo -->
       <button
         @click="navigate('/')"
         class="p-3 rounded-lg hover:bg-gray-200 transition duration-300"
@@ -31,7 +31,7 @@
       </button>
     </nav>
 
-    <!-- Bottom Settings Icon (Pushed Down) -->
+    <!-- Settings Icon -->
     <div class="mt-auto flex items-center justify-center pb-4">
       <button
         @click="navigate('/settings')"
