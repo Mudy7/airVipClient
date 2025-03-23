@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -5,6 +6,7 @@
   line-height: 1.5;
   font-weight: 400;
   --color-primary: #f9bb12;
+  --color-secondary: #fcd79b;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -17,6 +19,9 @@
 @layer utilities {
   .bg-primary {
     background-color: var(--color-primary);
+  }
+  .bg-secondary {
+    background-color: var(--color-secondary);
   }
   .text-primary {
     color: var(--color-primary);
@@ -95,8 +100,13 @@ body,
 
 @font-face {
   font-family: "Chillax";
-  src: url("@/assets/fonts/Chillax-Variable.woff2") format("woff2"),
-    url("@/assets/fonts/Chillax-Variable.woff") format("woff");
+  src: url("../public/assets/fonts/Chillax-Variable.woff2") format("woff2"),
+    url("../public/assets/fonts/Chillax-Variable.woff") format("woff");
   font-weight: 100 900;
-  font-style: normal;
+  font-style: swap;
+}
+html.dark,
+body.dark {
+  background-color: white !important;
+  color: black !important;
 }

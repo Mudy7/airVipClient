@@ -1,50 +1,61 @@
 <template>
   <div class="flex items-center justify-center p-6">
     <div
-      class="flex items-center bg-white shadow-md rounded-full px-4 space-x-3 w-full max-w-3xl py-1 border border-gray-300"
+      class="flex flex-col md:flex-row items-center text-white border-2 bg-white/20 backdrop-filter backdrop-blur-sm shadow-md rounded-xl md:rounded-full py-4 md:py-1 px-4 md:space-x-3 space-y-3 md:space-y-0 w-auto max-w-3xl border border-white"
     >
       <!-- FROM Input -->
-      <div class="flex flex-col px-4">
-        <label class="text-sm text-start text-black">De</label>
-        <AutoComplete
-          placeholder="Location"
-          :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
-          v-model="from"
-          size="small"
-          class="text-sm placeholder-gray-500"
-        ></AutoComplete>
+      <div class="flex flex-1 items-center md:pl-2 w-full">
+        <img src="../../public/assets/icons/takeoff.svg" class="w-5" />
+        <div class="flex flex-row md:flex-col w-full px-4">
+          <label class="text-sm text-start md:mb-1 pr-2">De</label>
+          <AutoComplete
+            placeholder="Location"
+            :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
+            v-model="from"
+            size="small"
+            class="text-sm placeholder-gray-400 w-full"
+          ></AutoComplete>
+        </div>
       </div>
-      <div class="border-l border-gray-300 h-8"></div>
+
+      <div class="hidden md:flex border-l border-gray-300 h-8"></div>
 
       <!-- TO Input -->
-      <div class="flex flex-col px-4">
-        <label class="text-sm text-start text-black">à</label>
-        <AutoComplete
-          placeholder="Location"
-          :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
-          v-model="to"
-          size="small"
-          class="text-sm placeholder-gray-500"
-        ></AutoComplete>
+      <div class="flex flex-1 items-center md:pl-2 w-full">
+        <img src="../../public/assets/icons/landing.svg" class="w-5" />
+        <div class="flex flex-row md:flex-col w-full px-4">
+          <label class="text-sm text-start md:mb-1 pr-2">À</label>
+          <AutoComplete
+            placeholder="Location"
+            :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
+            v-model="to"
+            size="small"
+            class="text-sm placeholder-gray-400 w-full"
+          ></AutoComplete>
+        </div>
       </div>
 
-      <div class="border-l border-gray-300 h-8"></div>
+      <div class="hidden md:flex border-l border-gray-300 h-8"></div>
+
       <!-- DEPARTURE DATE -->
-      <div class="flex flex-col px-4 py-2 cursor-pointer">
-        <label class="text-sm text-start text-black">Departure</label>
-        <DatePicker
-          v-model="departureDate"
-          placeholder="date"
-          size="small"
-          style="border: none; box-shadow: none"
-          class="text-sm focus:outline-none"
-          dateFormat="dd/mm"
-        />
+      <div class="flex flex-1 items-center md:pl-2 w-full">
+        <img src="../../public/assets/icons/calendar.svg" class="w-5" />
+        <div class="flex flex-row md:flex-col w-full px-4 py-2 cursor-pointer">
+          <label class="text-sm text-start md:mb-1 pr-2">Departure</label>
+          <DatePicker
+            v-model="departureDate"
+            placeholder="Date"
+            size="small"
+            style="border: none; box-shadow: none"
+            class="text-sm focus:outline-none w-full"
+            dateFormat="dd/mm"
+          />
+        </div>
       </div>
 
       <!-- SEARCH BUTTON -->
       <div
-        class="relative flex items-center justify-center bg-primary primary-hover rounded-full p-5 cursor-pointer"
+        class="relative flex items-center w-full md:w-auto justify-center bg-secondary rounded-full p-5 cursor-pointer"
         @click="searchFlights"
       >
         <img
@@ -99,17 +110,26 @@ export default {
 </script>
 
 <style>
-.p-calendar,
-.p-datepicker,
-.p-inputtext,
-.p-datepicker-panel {
+.p-inputtext {
   box-shadow: none !important;
   border: none !important;
   padding: 0 !important;
 }
 
 .p-inputtext::placeholder {
-  color: #6b7280 !important; /* Change to your desired color */
-  opacity: 1; /* Ensure visibility */
+  color: rgba(255, 255, 255, 0.6); /* Soft White */
+  opacity: 1;
+}
+.p-inputtext,
+.p-calendar,
+.p-datepicker {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.p-datepicker-panel {
+  background-color: white !important;
+  color: black;
 }
 </style>

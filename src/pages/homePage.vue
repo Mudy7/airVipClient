@@ -1,38 +1,49 @@
 <template>
-  <div class="relative">
-    <!-- Image Container (With Extra Padding) -->
+  <div class="relative min-h-screen overflow-hidden">
+    <!-- Full-Screen Video Container -->
     <div
-      class="relative h-[80vh] pb-20 flex flex-col items-center justify-center text-white"
+      class="relative min-h-screen flex flex-col items-end justify-center text-white"
     >
-      <!-- Background Image -->
+      <!-- Background Video -->
       <div class="absolute inset-0">
-        <img
-          src="https://assets.gulfstream.aero/thedotcom/images/aircraft/g800/v_g800_a_mkt_006_PROD.jpg"
-          alt="Background"
+        <video
           class="w-full h-full object-cover"
-        />
+          loop
+          muted
+          playsinline
+          autoplay
+        >
+          <source
+            src="https://player.vimeo.com/external/563130035.hd.mp4?s=5bd311f698519ffa90aa5136b96d1e86aa78d107&profile_id=175"
+            type="video/mp4"
+          />
+        </video>
       </div>
 
       <!-- Navbar (Fixed at Top) -->
-      <NavBar class="w-full fixed top-0 left-0 z-20" />
+      <Navbar class="w-full fixed top-0 left-0 z-20" />
 
-      <!-- Content (Title + Search) -->
-      <div class="relative z-10 flex flex-col items-center">
-        <!-- Text (Title) -->
-        <h1 class="text-5xl font-bold">Voyager en Luxe</h1>
-      </div>
-
-      <!-- Search Bar Positioned at Bottom, Overlapping -->
-      <div
-        class="absolute bottom-[-55px] left-1/2 transform -translate-x-1/2 z-10 w-full px-4"
-      >
-        <SearchBar />
+      <!-- Content Wrapper -->
+      <div class="relative z-10 w-full">
+        <div class="container mx-auto px-4">
+          <h1
+            class="text-[25px] sm:text-[30px] md:text-[60px] tracking-wide md:leading-20 text-center"
+          >
+            Voyagez en Luxe <br />
+            Arrivez avec Élégance
+          </h1>
+          <div class="mt-3 md:mt-10">
+            <SearchBar />
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Content Section Below Image -->
-    <div class="p-10 text-center">
-      <p class="text-xl text-black">More content goes here...</p>
+    <!-- Allow Scrolling for Additional Content -->
+    <div class="relative overflow-visible">
+      <div class="container mx-auto p-10 text-center">
+        <p class="text-xl text-black">More content goes here...</p>
+      </div>
     </div>
   </div>
 </template>
@@ -42,13 +53,14 @@ import Sidebar from "../components/sidebar.vue";
 import SearchBar from "../components/searchbar.vue";
 import BottomNav from "../components/BottomNav.vue";
 import Searchbar from "../components/searchbar.vue";
-import NavBar from "../components/NavBar.vue";
+import Navbar from "../components/navbar.vue";
+
 export default {
   components: {
     Sidebar,
     SearchBar,
     BottomNav,
-    NavBar,
+    Navbar,
   },
 };
 </script>
