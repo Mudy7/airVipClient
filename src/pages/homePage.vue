@@ -27,10 +27,10 @@
       <div class="relative z-10 w-full">
         <div class="container mx-auto px-4">
           <h1
-            class="text-[25px] sm:text-[30px] md:text-[60px] tracking-wide md:leading-20 text-center"
+            class="text-[25px] sm:text-[30px] md:text-[75px] md:leading-20 items-centers"
           >
-            Voyagez en Luxe <br />
-            Arrivez avec Élégance
+            Redéfinir le Voyage <br />
+            de Luxe
           </h1>
           <div class="mt-3 md:mt-10">
             <SearchBar />
