@@ -131,7 +131,7 @@
                 {{ flight.plane }}
               </h3>
               <p class="text-lg font-semibold text-right whitespace-nowrap">
-                {{ flight.price * flight.duration }} $
+                {{ getFormattedPrice(flight) }} $
               </p>
             </div>
 
@@ -279,7 +279,7 @@
                   Départure: {{ formatDate(flight.departureDate) }}
                 </p>
                 <p class="text-[11px] font-semibold whitespace-nowrap">
-                  {{ flight.price * flight.duration }} $
+                  {{ getFormattedPrice(flight) }} $
                 </p>
               </div>
             </div>
@@ -398,6 +398,10 @@ export default {
 
     filteredOptions() {
       return this.sortOptions.filter((option) => option !== this.selectedSort);
+    },
+    getFormattedPrice(flight) {
+      const total = flight.price * flight.duration;
+      return total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
     dynamicTitle() {
       const from = this.searchParams[0] || "Unknown";
