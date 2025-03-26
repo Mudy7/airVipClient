@@ -25,7 +25,7 @@
           <div
             class="absolute left-1/2 transform -translate-x-1/2 hidden md:flex space-x-6 text-sm"
           >
-            <a href="#" class="tracking-widest hover:text-primary">Home</a>
+            <a href="/" class="tracking-widest hover:text-primary">Home</a>
             <a href="#" class="tracking-widest hover:text-primary">About</a>
             <a href="#" class="tracking-widest hover:text-primary">Contact</a>
           </div>
@@ -64,7 +64,7 @@
                   <a href="/login" class="block px-4 py-2 hover:bg-gray-200"
                     >Se connecter</a
                   >
-                  <a href="/register" class="block px-4 py-2 hover:bg-gray-200"
+                  <a href="/login" class="block px-4 py-2 hover:bg-gray-200"
                     >Créer un compte</a
                   >
                 </div>
@@ -92,7 +92,7 @@
         :style="{ top: `${navHeight}px` }"
       >
         <div class="container mx-auto py-4">
-          <SearchBar :solid="true" />
+          <SearchBar />
         </div>
       </div>
     </transition>
@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import SearchBar from "./searchbar.vue";
+import SearchBar from "./searchbarSolid.vue";
 
 export default {
   components: {

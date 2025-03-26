@@ -2,21 +2,19 @@
   <div class="flex items-center justify-center p-4">
     <form
       @submit.prevent="searchFlights"
-      :class="[
-        'flex flex-col md:flex-row items-center shadow-md rounded-xl md:rounded-full py-4 md:py-1 px-4 md:space-x-3 space-y-3 md:space-y-0 w-auto max-w-3xl border transition-all duration-300 bg-white/20 border-white backdrop-blur-sm backdrop-filter text-white',
-      ]"
+      class="flex flex-col md:flex-row items-center shadow-md rounded-xl md:rounded-full py-4 md:py-1 px-4 md:space-x-3 space-y-3 md:space-y-0 w-auto max-w-3xl border border-gray-300 bg-white text-black"
     >
       <!-- FROM Input -->
       <div class="flex flex-1 items-center md:pl-2 w-full">
-        <img src="../../public/assets/icons/takeoff.svg" class="w-5" />
+        <img src="/assets/icons/takeoff.svg" class="w-5 invert" />
         <div class="flex flex-row md:flex-col w-full px-4">
           <label class="text-sm text-start md:mb-1 pr-2">De</label>
           <AutoComplete
             placeholder="Location"
-            :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
             v-model="from"
             size="small"
-            class="text-sm w-full text-black"
+            class="text-sm w-full solid-input"
+            :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
             required
           />
         </div>
@@ -26,15 +24,15 @@
 
       <!-- TO Input -->
       <div class="flex flex-1 items-center md:pl-2 w-full">
-        <img src="../../public/assets/icons/landing.svg" class="w-5" />
+        <img src="/assets/icons/landing.svg" class="w-5 invert" />
         <div class="flex flex-row md:flex-col w-full px-4">
           <label class="text-sm text-start md:mb-1 pr-2">À</label>
           <AutoComplete
             placeholder="Location"
-            :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
             v-model="to"
             size="small"
-            class="text-sm w-full"
+            class="text-sm w-full solid-input"
+            :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
             required
           />
         </div>
@@ -44,14 +42,14 @@
 
       <!-- DEPARTURE DATE -->
       <div class="flex flex-1 items-center md:pl-2 w-full">
-        <img src="../../public/assets/icons/calendar.svg" class="w-5" />
+        <img src="/assets/icons/calendar.svg" class="w-5 invert" />
         <div class="flex flex-row md:flex-col w-full px-4 py-2 cursor-pointer">
           <label class="text-sm text-start md:mb-1 pr-2">Departure</label>
           <DatePicker
             v-model="departureDate"
             placeholder="Date"
             size="small"
-            class="text-sm focus:outline-none w-full"
+            class="text-sm focus:outline-none w-full solid-input"
             dateFormat="dd/mm"
             required
           />
@@ -80,14 +78,8 @@ import AutoComplete from "primevue/autocomplete";
 import { useRouter } from "vue-router";
 
 export default {
-  name: "FlightSearchBar",
+  name: "FlightSearchBarSolid",
   components: { DatePicker, AutoComplete },
-  props: {
-    solid: {
-      type: Boolean,
-      default: true,
-    },
-  },
   data() {
     return {
       from: "",
@@ -119,65 +111,17 @@ export default {
 };
 </script>
 
-<style>
-.p-inputtext {
+<style scoped>
+/* Style input text and placeholder for solid search bar */
+.solid-input :deep(.p-inputtext) {
+  color: black !important;
   box-shadow: none !important;
   border: none !important;
+  background: transparent !important;
   padding: 0 !important;
 }
 
-.p-inputtext,
-.p-calendar,
-.p-datepicker {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-.p-datepicker-panel {
-  background-color: white !important;
-  color: black !important;
-}
-
-.p-datepicker-header {
-  background-color: white !important;
-  color: black !important;
-}
-
-.p-datepicker-select-month,
-.p-datepicker-select-year,
-.p-datepicker-weekday,
-.p-datepicker-day {
-  color: black !important;
-}
-
-.p-button:hover,
-.p-datepicker-select-year:hover,
-.p-datepicker-select-month:hover,
-.p-datepicker-day:hover {
-  background-color: #fcd79b !important;
-  color: white !important;
-}
-
-.p-datepicker-today > .p-datepicker-day {
-  background-color: #f9bb12 !important;
-  color: white !important;
-}
-
-.p-datepicker-day-selected {
-  background-color: #fcd79b !important;
-  color: white !important;
-}
-
-td.p-datepicker-day-cell.p-datepicker-today {
-  color: white !important;
-}
-
-.placeholder-white::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
-}
-
-.placeholder-black::placeholder {
-  color: black !important;
+.solid-input :deep(.p-inputtext::placeholder) {
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 </style>

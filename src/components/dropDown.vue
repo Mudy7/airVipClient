@@ -16,7 +16,7 @@
           v-for="(option, index) in options"
           :key="index"
           @click="selectOption(option)"
-          class="px-2 py-2 cursor-pointer rounded-lg hover:bg-gray-300"
+          class="px-2 py-2 cursor-pointer rounded-lg hover:bg-gray-300 text-[10px] md:text-[12px]"
         >
           {{ option }}
         </li>
