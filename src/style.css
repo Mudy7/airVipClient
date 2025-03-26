@@ -39,7 +39,7 @@ body,
   padding: 0;
   width: 100vw;
   height: 100vh;
-  background-color: white !important;
+  background-color: #f3f3f3 !important;
   color: oklch(0.373 0.034 259.733) !important;
   overflow: hidden;
   display: flex;
