@@ -51,10 +51,10 @@
         </div>
         <div v-if="selected_option === 'Se connecter'">
           <div class="pt-8 flex flex-col w-full">
-            <label class="text-start pb-2 text-sm">Adresse Courielle</label>
+            <label class="text-start pb-2 text-sm">Adresse Couriel</label>
             <input
               v-model="email"
-              placeholder="entrer votre adresse courielle"
+              placeholder="entrer votre adresse couriel"
               name="email"
               type="email"
               class="outline-none w-full rounded-md border-0 py-3 px-5 bg-[#ffffff] text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary"
@@ -95,10 +95,10 @@
         </div>
         <div v-else>
           <div class="pt-8 flex flex-col w-full">
-            <label class="text-start pb-2 text-sm">Adresse Courielle</label>
+            <label class="text-start pb-2 text-sm">Adresse Couriel</label>
             <input
               v-model="email"
-              placeholder="entrer votre adresse courielle"
+              placeholder="entrer votre adresse couriel"
               name="email"
               type="email"
               class="outline-none w-full rounded-md border-0 py-3 px-5 bg-[#ffffff] text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary"
