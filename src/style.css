@@ -41,7 +41,6 @@ body,
   height: 100vh;
   background-color: #f3f3f3 !important;
   color: oklch(0.373 0.034 259.733) !important;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   font-family: "Chillax", sans-serif;
