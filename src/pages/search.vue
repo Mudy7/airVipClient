@@ -131,7 +131,7 @@
                 {{ flight.plane }}
               </h3>
               <p class="text-lg font-semibold text-right whitespace-nowrap">
-                {{ flight.price * flight.duration }} $
+                {{ getFormattedPrice(flight) }} $
               </p>
             </div>
 
@@ -279,7 +279,7 @@
                   Départure: {{ formatDate(flight.departureDate) }}
                 </p>
                 <p class="text-[11px] font-semibold whitespace-nowrap">
-                  {{ flight.price * flight.duration }} $
+                  {{ getFormattedPrice(flight) }} $
                 </p>
               </div>
             </div>

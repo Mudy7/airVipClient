@@ -59,7 +59,7 @@
       <!-- SEARCH BUTTON -->
       <button
         type="submit"
-        class="relative flex items-center w-full md:w-auto justify-center bg-secondary rounded-full p-5 cursor-pointer"
+        class="relative flex items-center w-full md:w-auto justify-center bg-primary primary-hover rounded-full p-5 cursor-pointer"
       >
         <img
           class="w-4 absolute invert"
