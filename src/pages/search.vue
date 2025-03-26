@@ -53,7 +53,7 @@
         <div
           v-for="(flight, index) in flights"
           :key="index"
-          class="flex flex-row w-full shadow-[0_4px_15px_rgba(0,0,0,0.2)] rounded-lg overflow-hidden mb-6 bg-white cursor-pointer"
+          class="flex flex-row w-full rounded-lg shadow-md overflow-hidden mb-6 bg-white cursor-pointer"
         >
           <!-- Image Section -->
           <div class="w-[35%] group p-3">
@@ -131,7 +131,7 @@
                 {{ flight.plane }}
               </h3>
               <p class="text-lg font-semibold text-right whitespace-nowrap">
-                {{ getFormattedPrice(flight) }} $
+                {{ flight.price * flight.duration }} $
               </p>
             </div>
 
@@ -279,7 +279,7 @@
                   Départure: {{ formatDate(flight.departureDate) }}
                 </p>
                 <p class="text-[11px] font-semibold whitespace-nowrap">
-                  {{ getFormattedPrice(flight) }} $
+                  {{ flight.price * flight.duration }} $
                 </p>
               </div>
             </div>
