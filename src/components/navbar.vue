@@ -17,7 +17,7 @@
       <div
         class="absolute left-1/2 transform -translate-x-1/2 hidden md:flex space-x-6 text-sm"
       >
-        <a href="#" class="text-white tracking-widest hover:text-gray-300"
+        <a href="/" class="text-white tracking-widest hover:text-gray-300"
           >Home</a
         >
         <a href="#" class="text-white tracking-widest hover:text-gray-300"
@@ -55,7 +55,7 @@
               <a href="/login" class="block px-4 py-2 hover:bg-gray-200"
                 >Se connecter</a
               >
-              <a href="/register" class="block px-4 py-2 hover:bg-gray-200"
+              <a href="/login" class="block px-4 py-2 hover:bg-gray-200"
                 >Créer un compte</a
               >
             </div>
