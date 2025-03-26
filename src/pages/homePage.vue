@@ -33,7 +33,7 @@
             de Luxe
           </h1>
           <div class="mt-3 md:mt-10">
-            <SearchBar />
+            <SearchBar :solid="false" />
           </div>
         </div>
       </div>
@@ -54,6 +54,7 @@ import SearchBar from "../components/searchbar.vue";
 import BottomNav from "../components/BottomNav.vue";
 import Searchbar from "../components/searchbar.vue";
 import Navbar from "../components/navbar.vue";
+import dropDown from "../components/dropDown.vue";
 
 export default {
   components: {
@@ -61,6 +62,7 @@ export default {
     SearchBar,
     BottomNav,
     Navbar,
+    dropDown,
   },
 };
 </script>

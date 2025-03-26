@@ -29,35 +29,67 @@
       </div>
 
       <!-- Profile & Actions (Right) -->
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 relative">
+        <!-- Reserve Button -->
         <a
           class="flex rounded-full ring cursor-pointer hover:bg-black/10 duration-200 ring-white text-sm text-white tracking-widest p-2"
         >
           Reserver
         </a>
-        <button
-          @click="toggleDropdown"
-          class="flex rounded-full bg-white p-2 cursor-pointer"
-        >
-          <img src="../../public/assets/icons/profile.svg" class="h-4" />
-        </button>
+
+        <!-- Profile Icon (Dropdown Trigger) -->
+        <div class="relative">
+          <button
+            @click="toggleDropdown"
+            class="flex rounded-full bg-white p-2 cursor-pointer"
+          >
+            <img src="../../public/assets/icons/profile.svg" class="h-4" />
+          </button>
+
+          <!-- Dropdown Menu -->
+          <transition name="fade">
+            <div
+              v-if="isDropdownOpen"
+              class="absolute right-0 mt-3 w-48 bg-white text-black shadow-lg rounded-lg py-2 z-50"
+            >
+              <a href="/login" class="block px-4 py-2 hover:bg-gray-200"
+                >Se connecter</a
+              >
+              <a href="/register" class="block px-4 py-2 hover:bg-gray-200"
+                >Créer un compte</a
+              >
+            </div>
+          </transition>
+        </div>
       </div>
     </div>
   </nav>
 </template>
 
-<script setup>
-import { ref } from "vue";
-
-const isDropdownOpen = ref(false);
-const isMenuOpen = ref(false);
-
-const toggleDropdown = () => {
-  isDropdownOpen.value = !isDropdownOpen.value;
-};
-
-const toggleMenu = () => {
-  isMenuOpen.value = !isMenuOpen.value;
+<script>
+export default {
+  data() {
+    return {
+      isDropdownOpen: false,
+    };
+  },
+  methods: {
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    },
+    closeDropdown(event) {
+      // Close dropdown only if clicking outside
+      if (!this.$el.contains(event.target)) {
+        this.isDropdownOpen = false;
+      }
+    },
+  },
+  mounted() {
+    document.addEventListener("click", this.closeDropdown);
+  },
+  beforeUnmount() {
+    document.removeEventListener("click", this.closeDropdown);
+  },
 };
 </script>
 
