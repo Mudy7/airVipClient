@@ -53,7 +53,7 @@
         <div
           v-for="(flight, index) in flights"
           :key="index"
-          class="flex flex-row w-full rounded-lg shadow-md overflow-hidden mb-6 bg-white cursor-pointer"
+          class="flex flex-row w-full ring ring-1 ring-gray-300 shadow-[0_4px_15px_rgba(0,0,0,0.2)] rounded-lg overflow-hidden mb-6 bg-white cursor-pointer"
         >
           <!-- Image Section -->
           <div class="w-[35%] group p-3">
@@ -181,7 +181,7 @@
           <div
             v-for="(flight, index) in flights"
             :key="index"
-            class="flex flex-col bg-white rounded-lg shadow-[0_4px_15px_rgba(0,0,0,0.2)] overflow-hidden cursor-pointer hover:shadow-lg duration-300"
+            class="flex flex-col bg-white rounded-lg ring ring-1 ring-gray-300 shadow-[0_4px_15px_rgba(0,0,0,0.2)] overflow-hidden cursor-pointer hover:shadow-lg duration-300"
           >
             <!-- Image -->
             <div class="relative h-[200px] w-full group">
