@@ -207,37 +207,42 @@ import { HTTP_STATUS_CODES } from "../assets/utils/constants.js";
 export default {
   name: "CreateAccount",
   data() {
-    return {
-      email: ref(""),
-      password: ref(""),
-      selected_option: "Se connecter",
-      emailError: false,
-      passwordError: false,
-      emailErrorText: "",
-      passwordErrorText: "",
-      passwordError2: false,
-      firstName: ref(""),
-      firstNameError: false,
-      firstNameErrorText: "",
-    };
-  },
+  return {
+    email: "", 
+    password: "",
+    selected_option: "Se connecter",
+    emailError: false,
+    passwordError: false,
+    emailErrorText: "",
+    passwordErrorText: "",
+    passwordError2: false,
+    firstName: "",
+    firstNameError: false,
+    firstNameErrorText: "",
+  };
+},
   methods: {
     handleButtonClick(option) {
       this.selected_option = option;
     },
     async submit_connect() {
-      if (!this.email || !this.password) {
-        this.emailError = !this.email;
-        this.passwordError = !this.password;
-        return;
-      }
-      const userData = { email: this.email, password: this.password };
-      const response = await get("users/sign-in", userData);
-      if (response.status !== HTTP_STATUS_CODES.OK) {
-        this.passwordError2 = true;
-        this.password = "";
-      }
-    },
+  console.log("Email envoyé :", this.email); 
+  console.log("Mot de passe envoyé :", this.password);
+
+  if (!this.email || !this.password) {
+    this.emailError = !this.email;
+    this.passwordError = !this.password;
+    return;
+  }
+
+  const userData = { email: this.email, password: this.password };
+  const response = await post("utilisateurs/sign-in", userData);
+
+  if (response.status !== HTTP_STATUS_CODES.OK) {
+    this.passwordError2 = true;
+    this.password = "";
+  }
+},
     async submit_signup() {
   // Reset all error states
   this.emailError = false;
@@ -291,8 +296,7 @@ export default {
     this.emailError = true;
     this.emailErrorText = "Erreur du serveur. Veuillez réessayer.";
   }
-}
-
+},
   },
 };
 </script>
