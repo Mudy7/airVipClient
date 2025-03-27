@@ -202,6 +202,52 @@ export default {
         this.password = "";
       }
     },
+    async submit_signup() {
+      // Reset all error states
+      this.emailError = false;
+      this.nameError = false;
+      this.passwordError = false;
+      this.emailErrorText = "";
+      this.nameErrorText = "";
+      this.passwordErrorText = "";
+
+      // Validate fields
+      if (!this.email || !this.password || !this.name) {
+        if (!this.email) {
+          this.emailError = true;
+          this.emailErrorText = "Email requis";
+        }
+        if (!this.name) {
+          this.nameError = true;
+          this.nameErrorText = "Nom requis";
+        }
+        if (!this.password) {
+          this.passwordError = true;
+          this.passwordErrorText = "Mot de passe requis";
+        }
+        return;
+      }
+
+      const userData = {
+        email: this.email,
+        password: this.password,
+        name: this.name,
+      };
+
+      try {
+        const response = await post("utilisateurs/sign-up", userData);
+        if (response.status === 201) {
+          this.$router.push("/dashboard");
+        } else {
+          this.emailError = true;
+          this.emailErrorText = "Erreur d'inscription. Réessayez.";
+        }
+      } catch (error) {
+        console.error("Signup failed:", error.message);
+        this.emailError = true;
+        this.emailErrorText = "Erreur du serveur. Veuillez réessayer.";
+      }
+    },
   },
 };
 </script>
