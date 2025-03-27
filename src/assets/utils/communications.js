@@ -1,6 +1,6 @@
 export async function get(route) {
     //changer la route ici 
-    const response = await fetch("http://localhost:3000/" + route, {
+    const response = await fetch("http://localhost:8081/" + route, {
       method: "GET",
       credentials: "include",
     });
@@ -19,7 +19,7 @@ export async function get(route) {
       },
     };
   
-    const response = await fetch("http://localhost:3000/" + route, data);
+    const response = await fetch("http://localhost:8081/" + route, data);
     return await parseResponse(response, route);
   }
   
