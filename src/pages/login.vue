@@ -128,6 +128,23 @@
             >
           </div>
           <div class="pt-5 flex flex-col w-full">
+            <label class="text-start pb-2 text-sm">Prénom</label>
+            <input
+              v-model="firstName"
+              placeholder="entrer votre prénom"
+              name="firstName"
+              class="outline-none w-full rounded-md border-0 py-3 px-5 bg-[#ffffff] text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary"
+              :class="{
+                'ring-red-400': firstNameError,
+                'ring-gray-300': !firstNameError,
+              }"
+            />
+            <span class="pt-1 text-[12px] text-red" v-if="firstNameError">
+              {{ firstNameErrorText }}
+            </span>
+          </div>
+
+          <div class="pt-5 flex flex-col w-full">
             <label class="text-start pb-2 text-sm">Mot de passe</label>
             <input
               v-model="password"
@@ -183,6 +200,9 @@ export default {
       emailErrorText: "",
       passwordErrorText: "",
       passwordError2: false,
+      firstName: ref(""),
+      firstNameError: false,
+      firstNameErrorText: "",
     };
   },
   methods: {
@@ -205,17 +225,23 @@ export default {
     async submit_signup() {
       // Reset all error states
       this.emailError = false;
+      this.firstNameError = false;
       this.nameError = false;
       this.passwordError = false;
       this.emailErrorText = "";
+      this.firstNameErrorText = "";
       this.nameErrorText = "";
       this.passwordErrorText = "";
 
       // Validate fields
-      if (!this.email || !this.password || !this.name) {
+      if (!this.email || !this.password || !this.name || !this.firstName) {
         if (!this.email) {
           this.emailError = true;
           this.emailErrorText = "Email requis";
+        }
+        if (!this.firstName) {
+          this.firstNameError = true;
+          this.firstNameErrorText = "Prénom requis";
         }
         if (!this.name) {
           this.nameError = true;
@@ -229,9 +255,10 @@ export default {
       }
 
       const userData = {
-        email: this.email,
-        password: this.password,
-        name: this.name,
+        adresse_courriel: this.email,
+        mot_de_passe: this.password,
+        nom: this.name,
+        prenom: this.firstName,
       };
 
       try {
