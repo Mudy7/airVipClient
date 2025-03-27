@@ -53,7 +53,6 @@ export default {
     this.aeroportGet();
     this.volGet();
     this.avionGet();
-    
   },
   mounted(){
     this.carteAeroTexte(1);

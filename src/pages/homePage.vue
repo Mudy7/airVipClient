@@ -51,7 +51,7 @@
 <script>
 import Sidebar from "../components/sidebar.vue";
 import SearchBar from "../components/searchbar.vue";
-import BottomNav from "../components/BottomNav.vue";
+import BottomNav from "../components/bottomNav.vue";
 import Searchbar from "../components/searchbar.vue";
 import Navbar from "../components/navbar.vue";
 import dropDown from "../components/dropDown.vue";
