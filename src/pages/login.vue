@@ -235,7 +235,7 @@ export default {
     return;
   }
 
-  const userData = { email: this.email, password: this.password };
+  const userData = { adresse_courriel: this.email, mot_de_passe: this.password };
   const response = await post("utilisateurs/sign-in", userData);
 
   if (response.status !== HTTP_STATUS_CODES.OK) {
@@ -286,7 +286,7 @@ export default {
   try {
     const response = await post("utilisateurs/sign-up", userData);
     if (response.status === 201) {
-      this.$router.push("/dashboard");
+      this.$router.push("/login");
     } else {
       this.emailError = true;
       this.emailErrorText = "Erreur d'inscription. Réessayez.";
