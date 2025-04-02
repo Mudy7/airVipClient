@@ -2,6 +2,7 @@
     <Navbar class="w-full fixed top-0 left-0 z-20" />
     <div class="container">
         <button class="add-btn" @click="ajouterVol()">Ajouter Vol</button>
+        <ajouterAero v-if="showAjouterAero" @fermer="showAjouterAero = false" />
         <table id="table-manager1" class="mb-30px">
             <thead>
                 <tr>
@@ -143,6 +144,13 @@ import { get } from "../assets/utils/communications";
 import { del } from "../assets/utils/communications";
 import { useDialog } from '../assets/utils/dialog.js';
 import dialogBox from '../components/dialogBox.vue';
+import ajouterAero from "../components/ajouterAero.vue";
+/*import ajouterVol from "../components/ajouterVol.vue";
+/*import ajouterAvion from "../components/ajouterAvion.vue";
+
+import modifierVol from "../components/modifierVol.vue";
+import modifierAvion from "../components/modifierAvion.vue";
+import modifierAero from "../components/modifierAero.vue";*/
 
 
 export default {
@@ -152,6 +160,13 @@ export default {
     dropDown,
     InputText,
     dialogBox,
+    ajouterAero,
+    /*ajouterVol,
+    ajouterAvion,
+    ajouterAero,
+    modifierVol,
+    modifierAvion,
+    modifierAero*/
   },
   setup() {
     const dialog = useDialog();
@@ -162,6 +177,8 @@ export default {
         aeroListe: [],
         volListe: [],
         avionListe: [],
+        showAjouterAero: false,
+
     };
   },
   async mounted(){
@@ -263,13 +280,40 @@ export default {
         }
     },
 
-    async ajouterAeroport(){},
-    async ajouterVol(){},
-    async ajouterAvion(){},
+    async ajouterAeroport(){
+        // ouvrir un nouveau ajouterAero
+        this.showAjouterAero = true;
+        //!! changer les noms des éléments du DOM
+        /*const codeIata = AA_iata
+        const ville = AA_ville
+        const pays = AA_pays
+        const dist = AA_dist;
 
-    async modifierAeroport(){},
-    async modifierVol(){},
-    async modifierAvion(){},
+        const body = '{"code_IATA":"'+codeIata+'", "ville":"'+ville+'", "pays":"'+pays+'", "distance_montreal":"'+dist+'"}';
+
+        // onSubmit()
+        {
+            const reponse = await post('aeroports', body);
+
+        }
+            */
+    },
+    async ajouterVol(){
+        // ouvrir un nouveau ajouterVol
+    },
+    async ajouterAvion(){
+        // ouvrir un nouveau ajouterAvion
+    },
+
+    async modifierAeroport(){
+        // ouvrir un nouveau modifierAero
+    },
+    async modifierVol(){
+        // ouvrir un nouveau modifierVol
+    },
+    async modifierAvion(){
+        // ouvrir un nouveau modifierAvion
+    },
 
   }
 };
