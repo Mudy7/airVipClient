@@ -26,6 +26,9 @@
         <a href="#" class="text-white tracking-widest hover:text-gray-300"
           >Contact</a
         >
+        <a v-if="isAdmin" href="/manager" class="tracking-widest hover:text-primary text-sm"
+        >Manager</a
+        >
       </div>
 
       <!-- Profile & Actions (Right) -->
@@ -52,12 +55,19 @@
               v-if="isDropdownOpen"
               class="absolute right-0 mt-3 w-48 bg-white text-black shadow-lg rounded-lg py-2 z-50"
             >
-              <a href="/login" class="block px-4 py-2 hover:bg-gray-200"
-                >Se connecter</a
-              >
-              <a href="/login" class="block px-4 py-2 hover:bg-gray-200"
-                >Créer un compte</a
-              >
+              <div v-if="isAuthenticated">
+                <button @click="logout" class="block px-4 py-2 hover:bg-gray-200">
+                  Se déconnecter
+                </button>
+              </div>
+              <div v-else>
+                <a href="/login" class="block px-4 py-2 hover:bg-gray-200">
+                  Se connecter
+                </a>
+                <a href="/login" class="block px-4 py-2 hover:bg-gray-200">
+                  Créer un compte
+                </a>
+              </div>
             </div>
           </transition>
         </div>
@@ -67,30 +77,46 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      isDropdownOpen: false,
-    };
-  },
-  methods: {
-    toggleDropdown() {
-      this.isDropdownOpen = !this.isDropdownOpen;
+  export default {
+    data() {
+      return {
+        isDropdownOpen: false,
+        isAuthenticated: false,
+        isAdmin: false,
+      };
     },
-    closeDropdown(event) {
-      // Close dropdown only if clicking outside
-      if (!this.$el.contains(event.target)) {
-        this.isDropdownOpen = false;
-      }
+    methods: {
+      toggleDropdown() {
+        this.isDropdownOpen = !this.isDropdownOpen;
+      },
+      logout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        this.isAuthenticated = false;
+        this.isAdmin = false;
+        this.$router.push("/login");
+      },
+      checkAuth() {
+        const token = localStorage.getItem("token");
+        const role = localStorage.getItem("role"); // Stocke le rôle dans le localStorage lors de la connexion
+        this.isAuthenticated = !!token;
+        this.isAdmin = role === "admin";
+      },
     },
-  },
-  mounted() {
-    document.addEventListener("click", this.closeDropdown);
-  },
-  beforeUnmount() {
-    document.removeEventListener("click", this.closeDropdown);
-  },
-};
+    mounted() {
+      this.checkAuth();
+      window.addEventListener("storage", this.checkAuth); // Mise à jour si `localStorage` change
+    },
+    beforeUnmount() {
+      window.removeEventListener("storage", this.checkAuth);
+    },
+    watch: {
+      // Surveille localStorage et met à jour `isAuthenticated`
+      "$route"() {
+        this.checkAuth();
+      },
+    },
+  };
 </script>
 
 <style>
