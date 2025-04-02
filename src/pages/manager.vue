@@ -2,7 +2,7 @@
     <Navbar class="w-full fixed top-0 left-0 z-20" />
     <div class="container">
         <button class="add-btn" @click="ajouterVol()">Ajouter Vol</button>
-        <table id="table-manager1">
+        <table id="table-manager1" class="mb-30px">
             <thead>
                 <tr>
                     <th>ID</th>
