@@ -216,7 +216,7 @@ export default {
         return;
       }
       const userData = { email: this.email, password: this.password };
-      const response = await post("users/sign-in", userData);
+      const response = await post("utilisateurs/sign-in", userData);
       if (response.status !== HTTP_STATUS_CODES.OK) {
         this.passwordError2 = true;
         this.password = "";
