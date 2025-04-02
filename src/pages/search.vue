@@ -123,8 +123,10 @@
             </div>
           </div>
 
-          <!-- Info Section -->
-          <div class="flex-1 p-4 flex flex-col justify-between">
+          <div
+            class="flex-1 p-4 flex flex-col justify-between"
+            @click="goToFlightPage(flight)"
+          >
             <!-- Top Row: Title and Price -->
             <div class="flex justify-between items-start mb-2">
               <h3 class="text-lg md:text-lg font-semibold">
@@ -310,13 +312,14 @@ export default {
       searchParams: [],
       flights: [
         {
+          id: 1,
           images: [
             "https://i.pinimg.com/736x/31/b3/52/31b3520c5ca15a76b1326a724ce75644.jpg",
             "https://imageio.forbes.com/specials-images/imageserve/620a5ca7309af58b6b77d907/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds",
           ],
           currentImage: 1,
           totalImages: 2,
-          title: "Flight to Paris",
+          title: "Vol Paris",
           plane: "Bombardier Global Express",
           from: "Montreal",
           to: "Paris",
@@ -330,9 +333,10 @@ export default {
             "https://i.pinimg.com/736x/1e/23/3c/1e233c7c1d073e8e4dfa216fa42ea65b.jpg",
             "https://www.sunairjets.com/wp-content/uploads/2023/05/Gulfstream-GIV-SP-Private-Jet-Interior.png",
           ],
+          id: 2,
           currentImage: 1,
           totalImages: 2,
-          title: "Flight to Tokyo",
+          title: "Vol à Tokyo",
           plane: "Embraer Phenom 300",
           from: "Paris",
           to: "Tokyo",
@@ -352,6 +356,12 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
   methods: {
+    goToFlightPage(flight) {
+      this.$router.push({
+        path: "/flight",
+        query: { id: flight.id },
+      });
+    },
     prevFlightImage(flight) {
       if (flight.currentImage > 1) {
         flight.currentImage--;
