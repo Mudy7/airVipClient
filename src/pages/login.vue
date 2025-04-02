@@ -112,6 +112,22 @@
             >
           </div>
           <div class="pt-5 flex flex-col w-full">
+            <label class="text-start pb-2 text-sm">Prénom</label>
+            <input
+              v-model="prenom"
+              placeholder="entrer votre prénom"
+              name="name"
+              class="outline-none w-full rounded-md border-0 py-3 px-5 bg-[#ffffff] text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary"
+              :class="{
+                'ring-red-400': prenomError,
+                'ring-gray-300': !prenomError,
+              }"
+            />
+            <span class="pt-1 text-[12px] text-red" v-if="prenomError">
+              {{ prenomErrorText }}</span
+            >
+          </div>
+          <div class="pt-5 flex flex-col w-full">
             <label class="text-start pb-2 text-sm">Nom</label>
             <input
               v-model="name"
@@ -191,25 +207,26 @@ import { HTTP_STATUS_CODES } from "../assets/utils/constants.js";
 export default {
   name: "CreateAccount",
   data() {
-    return {
-      email: ref(""),
-      password: ref(""),
-      selected_option: "Se connecter",
-      emailError: false,
-      passwordError: false,
-      emailErrorText: "",
-      passwordErrorText: "",
-      passwordError2: false,
-      firstName: ref(""),
-      firstNameError: false,
-      firstNameErrorText: "",
-    };
-  },
+  return {
+    email: "", 
+    password: "",
+    selected_option: "Se connecter",
+    emailError: false,
+    passwordError: false,
+    emailErrorText: "",
+    passwordErrorText: "",
+    passwordError2: false,
+    firstName: "",
+    firstNameError: false,
+    firstNameErrorText: "",
+  };
+},
   methods: {
     handleButtonClick(option) {
       this.selected_option = option;
     },
     async submit_connect() {
+<<<<<<< HEAD
       if (!this.email || !this.password) {
         this.emailError = !this.email;
         this.passwordError = !this.password;
@@ -222,59 +239,79 @@ export default {
         this.password = "";
       }
     },
+=======
+  console.log("Email envoyé :", this.email); 
+  console.log("Mot de passe envoyé :", this.password);
+
+  if (!this.email || !this.password) {
+    this.emailError = !this.email;
+    this.passwordError = !this.password;
+    return;
+  }
+
+  const userData = { adresse_courriel: this.email, mot_de_passe: this.password };
+  const response = await post("utilisateurs/sign-in", userData);
+
+  if (response.status !== HTTP_STATUS_CODES.OK) {
+    this.passwordError2 = true;
+    this.password = "";
+  }
+},
+>>>>>>> 98740e8aa2dcdb4c77a8df286f3aeb8f6033260e
     async submit_signup() {
-      // Reset all error states
-      this.emailError = false;
-      this.firstNameError = false;
-      this.nameError = false;
-      this.passwordError = false;
-      this.emailErrorText = "";
-      this.firstNameErrorText = "";
-      this.nameErrorText = "";
-      this.passwordErrorText = "";
+  // Reset all error states
+  this.emailError = false;
+  this.firstNameError = false;
+  this.nameError = false;
+  this.passwordError = false;
+  this.emailErrorText = "";
+  this.firstNameErrorText = "";
+  this.nameErrorText = "";
+  this.passwordErrorText = "";
 
-      // Validate fields
-      if (!this.email || !this.password || !this.name || !this.firstName) {
-        if (!this.email) {
-          this.emailError = true;
-          this.emailErrorText = "Email requis";
-        }
-        if (!this.firstName) {
-          this.firstNameError = true;
-          this.firstNameErrorText = "Prénom requis";
-        }
-        if (!this.name) {
-          this.nameError = true;
-          this.nameErrorText = "Nom requis";
-        }
-        if (!this.password) {
-          this.passwordError = true;
-          this.passwordErrorText = "Mot de passe requis";
-        }
-        return;
-      }
+  // Validate fields
+  if (!this.email || !this.password || !this.name || !this.firstName) {
+    if (!this.email) {
+      this.emailError = true;
+      this.emailErrorText = "Email requis";
+    }
+    if (!this.firstName) {
+      this.firstNameError = true;
+      this.firstNameErrorText = "Prénom requis";
+    }
+    if (!this.name) {
+      this.nameError = true;
+      this.nameErrorText = "Nom requis";
+    }
+    if (!this.password) {
+      this.passwordError = true;
+      this.passwordErrorText = "Mot de passe requis";
+    }
+    return;
+  }
 
-      const userData = {
-        adresse_courriel: this.email,
-        mot_de_passe: this.password,
-        nom: this.name,
-        prenom: this.firstName,
-      };
+  const userData = {
+    adresse_courriel: this.email,
+    mot_de_passe: this.password,
+    nom: this.name,
+    prenom: this.firstName,
+    role: 'client' 
+  };
 
-      try {
-        const response = await post("utilisateurs/sign-up", userData);
-        if (response.status === 201) {
-          this.$router.push("/dashboard");
-        } else {
-          this.emailError = true;
-          this.emailErrorText = "Erreur d'inscription. Réessayez.";
-        }
-      } catch (error) {
-        console.error("Signup failed:", error.message);
-        this.emailError = true;
-        this.emailErrorText = "Erreur du serveur. Veuillez réessayer.";
-      }
-    },
+  try {
+    const response = await post("utilisateurs/sign-up", userData);
+    if (response.status === 201) {
+      this.$router.push("/login");
+    } else {
+      this.emailError = true;
+      this.emailErrorText = "Erreur d'inscription. Réessayez.";
+    }
+  } catch (error) {
+    console.error("Signup failed:", error.message);
+    this.emailError = true;
+    this.emailErrorText = "Erreur du serveur. Veuillez réessayer.";
+  }
+},
   },
 };
 </script>
