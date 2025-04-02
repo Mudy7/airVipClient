@@ -221,6 +221,7 @@ export default {
                 
                 if(response.status===204){
                     await this.dialog.alert('Suppression réussie : aéroport '+id_aeroport);
+                    //!!!!!!! RAFRAICHIR LA PAGE
                 } else {
                     await this.dialog.alert('Erreur de suppression');
                 }
@@ -247,6 +248,7 @@ export default {
 
                 if(reponse.status===204){
                     await this.dialog.alert('Suppression réussie : avion '+id_avion);
+                    //!!!!!!! RAFRAICHIR LA PAGE
                 } else {
                     await this.dialog.alert('Erreur de suppression');
                 }
@@ -273,6 +275,7 @@ export default {
 
                 if(reponse.status===204){
                     await this.dialog.alert('Suppression réussie : vol '+id_vol);
+                    //!!!!!!! RAFRAICHIR LA PAGE
                 } else {
                     await this.dialog.alert('Erreur de suppression');
                 }
