@@ -5,22 +5,22 @@
 
 
 
-    <div class="boxAj">
+    <div class="boxVA">
 
-        <div class = "enteteAj">
-            Ajouter de l'aéroport
+        <div class = "enteteVA">
+            Ajouter de Vol
         </div>
 
 
 
-        <div class="boxModifierAj">
+        <div class="boxModifierVA">
 
             
-                <div class="titreSaisieAj">
-                    Code IATA
+                <div class="titreSaisieVA">
+                    Temps du vol
                 </div>
-                <div class="boxsaisieAj">
-                    <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_iata">
+                <div class="boxsaisieVA">
+                    <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_temps">
 
                 </div>
             
@@ -30,16 +30,16 @@
         </div>
 
 
-        <div class="boxModifierAj">
+        <div class="boxModifierVA">
 
            
 
-                <div class="titreSaisieAj">
-                    Ville
+                <div class="titreSaisieVA">
+                    Disponibilité
                 </div>
 
-                <div class="boxsaisieAj">
-                    <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_ville">
+                <div class="boxsaisieVA">
+                    <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_disponibilite">
 
                 </div>
            
@@ -48,15 +48,15 @@
         </div>
 
 
-        <div class="boxModifierAj">
+        <div class="boxModifierVA">
             
             
-                <div class="titreSaisieAj">
-                    Pays
+                <div class="titreSaisieVA">
+                    Nombre de place
                 </div>
                 
-                <div class="boxsaisieAj">
-                    <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_pays">
+                <div class="boxsaisieVA">
+                    <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_place">
 
                 </div>
             
@@ -64,26 +64,10 @@
         </div>
 
 
-        <div class="boxModifierAj">
-            
-            
 
-                <div class="titreSaisieAj">
-                    Distance de Montréal
-                </div>
-                
-                <div class="boxsaisieAj">
-                    <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_distance">
-
-                </div>
-
-            
-
-
-        </div>
 
         <div>
-            <button class="boutonConfirmerAj">Confirmer</button>
+            <button class="boutonConfirmerVA">Confirmer</button>
         </div>
 
     </div>
@@ -100,7 +84,7 @@
 
 
 <style>
-    .boxAj {
+    .boxVA {
         justify-content: center;
         align-self: center;
         width: 500px;
@@ -115,7 +99,7 @@
         justify-content: flex-start; /* Aligne en haut */
     }
 
-    .enteteAj{
+    .enteteVA{
         
         /*margin-bottom: 4px;*/
         text-align: center;
@@ -127,8 +111,8 @@
     }
 
 
-    .boutonConfirmerAj {
-        border: 1px solid grey;
+    .boutonConfirmerVA {
+        border: 2px solid grey;
         border-radius: 4px;
         background-color: lightskyblue;
         padding: 8px 18px;
@@ -148,7 +132,7 @@
 
 
 
-    .boxModifierAj{
+    .boxModifierVA{
         width: 100%;
         flex: 1; /* Prend un quart de l'espace total */
         display: flex;
@@ -163,7 +147,7 @@
 
 
 
-    .titreSaisieAj{
+    .titreSaisieVA{
 
         flex: 1;                /*avoir*/
         display: flex;
@@ -173,7 +157,7 @@
         
     }
 
-    .barreSaisieAj{
+    .barreSaisieVA{
         justify-content: flex-end;
         align-items: center;
         border: 2px solid grey;
@@ -184,7 +168,7 @@
 
     }
 
-    .boxsaisieAj{
+    .boxsaisieVA{
         
         flex: 1; /* Prend l'autre moitié de la largeur */
     display: flex;
