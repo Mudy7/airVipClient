@@ -5,65 +5,52 @@
 
 
 
-    <div class="box">
+    <div class="boxVM">
 
-        <div class = "entete">
-            Modification de l'aéroport
+        <div class = "enteteVM">
+            Modification du vol
         </div>
-        <div class="boxModifier1">
+        <div class="boxVMModifierVM1">
 
-            <div class="actionModif">
-                <div class="titreSaisie">
-                    Code IATA
+            <div class="actionModifVM">
+                <div class="titreSaisieVM">
+                    Temps du vol
                 </div>
-                <input class = "barreSaisie" type="text" placeholder="Entrez votre texte ici" id="AM_iata">
+                <input class = "barreSaisieVM" type="text" placeholder="Entrez votre texte ici" id="VM_temps">
 
             </div>
 
 
-            <button class="boutonConfirmer">Confirmer</button>
+            <button class="boutonConfirmerVM">Confirmer</button>
         </div>
-        <div class="boxModifier">
+        <div class="boxVMModifierVM">
 
-            <div class="actionModif">
+            <div class="actionModifVM">
 
-                <div class="titreSaisie">
-                    Ville
+                <div class="titreSaisieVM">
+                    Disponibilité
                 </div>
 
-                <input class = "barreSaisie" type="text" placeholder="Entrez votre texte ici" id="AM_ville">
+                <input class = "barreSaisieVM" type="text" placeholder="Entrez votre texte ici" id="VM_disponibilite">
 
             </div>
 
-            <button class="boutonConfirmer">Confirmer</button>
+            <button class="boutonConfirmerVM">Confirmer</button>
         </div>
-        <div class="boxModifier">
+        <div class="boxVMModifierVM">
             
-            <div class="actionModif">
-                <div class="titreSaisie">
-                    Pays
+            <div class="actionModifVM">
+                <div class="titreSaisieVM">
+                    Nombre de place
                 </div>
                 
-                <input class = "barreSaisie" type="text" placeholder="Entrez votre texte ici" id="AM_pays">
+                <input class = "barreSaisieVM" type="text" placeholder="Entrez votre texte ici" id="VM_place">
 
             </div>
 
-            <button class="boutonConfirmer">Confirmer</button>
+            <button class="boutonConfirmerVM">Confirmer</button>
         </div>
-        <div class="boxModifier">
-            
-            <div class="actionModif">
 
-                <div class="titreSaisie">
-                    Distance de Montréal
-                </div>
-                
-                <input class = "barreSaisie" type="text" placeholder="Entrez votre texte ici" id="AM_distance">
-
-            </div>
-
-            <button class="boutonConfirmer">Confirmer</button>
-        </div>
 
 
     </div>
@@ -80,7 +67,7 @@
 
 
 <style>
-    .box {
+    .boxVM {
         justify-content: center;
         align-self: center;
         width: 500px;
@@ -95,7 +82,7 @@
         justify-content: flex-start; /* Aligne en haut */
     }
 
-    .entete{
+    .enteteVM{
 
         background-color: rgb(246, 246, 92);
 
@@ -107,7 +94,7 @@
     }
 
 
-    .boutonConfirmer {
+    .boutonConfirmerVM {
         border: 1px solid grey;
         border-radius: 4px;
         background-color: lightskyblue;
@@ -115,7 +102,7 @@
         font-size: 15px;
         margin-top: 5px;
         margin-bottom: 5px;
-        align-self: center; /* Centre le bouton verticalement dans boxModifier1 */
+        align-self: center; /* Centre le bouton verticalement dans boxVMModifierVM1 */
         width: 185px;
         cursor: pointer;
         
@@ -124,7 +111,7 @@
 
 
 
-    .boxModifier1 {
+    .boxVMModifierVM1 {
         width: 100%;
         flex: 1; /* Prend un quart de l'espace total */
         display: flex;
@@ -136,7 +123,7 @@
 
 
 
-    .boxModifier{
+    .boxVMModifierVM{
         width: 100%;
         flex: 1; /* Prend un quart de l'espace total */
         display: flex;
@@ -147,7 +134,7 @@
     }
 
 
-    .actionModif{
+    .actionModifVM{
 
         justify-content: center;
         display: flex;
@@ -156,13 +143,13 @@
         
     }
 
-    .titreSaisie{
+    .titreSaisieVM{
 
         font-size: 17px;
         
     }
 
-    .barreSaisie{
+    .barreSaisieVM{
         margin-top: 13px;
         margin-bottom: 6px;
         border: 2px solid grey;
