@@ -9,7 +9,7 @@ const routes = [
   { path: "/", component: HomeView }, // Home Page
   { path: "/login", component: Login }, //login
   { path: "/search", component: Search }, //search
-  { path: "/manage", component: Manager,
+  { path: "/manager", component: Manager,
     beforeEnter: (to, from, next) => {
       const role = localStorage.getItem("role");
       if (role === "admin") {

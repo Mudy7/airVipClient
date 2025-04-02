@@ -72,9 +72,5 @@ async function parseResponse(response, route) {
   }
 
 
-  if (body && body.role && body.role !== 'client') {
-    throw new Error("Vous devez être un client pour vous inscrire.");
-  }
-
   return { status, body };
 }

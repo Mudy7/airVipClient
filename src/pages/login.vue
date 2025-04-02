@@ -211,23 +211,30 @@ export default {
       this.selected_option = option;
     },
     async submit_connect() {
-  console.log("Email envoyé :", this.email); 
-  console.log("Mot de passe envoyé :", this.password);
+    const userData = {
+      adresse_courriel: this.email,
+      mot_de_passe: this.password
+    };
 
-  if (!this.email || !this.password) {
-    this.emailError = !this.email;
-    this.passwordError = !this.password;
-    return;
-  }
+    try {
+      const { status, body } = await post("utilisateurs/sign-in", userData);
 
-  const userData = { adresse_courriel: this.email, mot_de_passe: this.password };
-  const response = await post("utilisateurs/sign-in", userData);
+      if (status === 200) { 
+        console.log("Réponse:", body);
 
-  if (response.status !== HTTP_STATUS_CODES.OK) {
-    this.passwordError2 = true;
-    this.password = "";
-  }
-},
+        // Stocker le token dans le localStorage
+        localStorage.setItem("token", body.token);
+        localStorage.setItem("role", body.role); // Si le backend renvoie aussi le rôle
+
+        this.$router.push("/");
+      } else {
+        this.passwordError2 = true;
+        this.password = "";
+      }
+    } catch (error) {
+      console.error("Erreur de connexion:", error);
+    }
+  },
     async submit_signup() {
   // Reset all error states
   this.emailError = false;
