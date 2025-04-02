@@ -1,17 +1,10 @@
 <template>
 
-
-
-
-
-
     <div class="boxAj">
 
         <div class = "enteteAj">
             Ajouter de l'aéroport
         </div>
-
-
 
         <div class="boxModifierAj">
 
@@ -23,16 +16,10 @@
                     <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_iata">
 
                 </div>
-            
-
-
-
+       
         </div>
 
-
         <div class="boxModifierAj">
-
-           
 
                 <div class="titreSaisieAj">
                     Ville
@@ -43,10 +30,7 @@
 
                 </div>
            
-
-
         </div>
-
 
         <div class="boxModifierAj">
             
@@ -60,15 +44,11 @@
 
                 </div>
             
-
         </div>
 
-
         <div class="boxModifierAj">
-            
-            
 
-                <div class="titreSaisieAj">
+            <div class="titreSaisieAj">
                     Distance de Montréal
                 </div>
                 
@@ -76,25 +56,23 @@
                     <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_distance">
 
                 </div>
-
-            
-
-
         </div>
 
         <div>
             <button class="boutonConfirmerAj">Confirmer</button>
         </div>
 
+        <button @click="ajouter">Valider</button>
+        <button @click="$emit('fermer')">Annuler</button>
+
     </div>
-
-
-
 
 </template>
 
 <script>
-
+export default {
+    name:"ajouterAero"
+  }
 </script>
 
 
