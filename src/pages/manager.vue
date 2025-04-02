@@ -1,28 +1,122 @@
 <template>
-    <!--NavBar-->
     <Navbar class="w-full fixed top-0 left-0 z-20" />
-
-    <!--Table Selector-->
-    <div>
-        <div id="entete-manager">
-
-        </div>
-        <div id="corps-manager">
-            <!--Liste des éléments modifiables, avion, aéroport, vol-->
-            <!--Cliquer dessus change la page pour montrer la liste d'éléments de la table-->
-            <!--Change aussi l'entete-->
-            <table id="table-manager">
-                <td class="p-30">{{ this.aeroportTest }}</td>
-            </table>
-        </div>
+    <div class="container">
+        <table id="table-manager1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Prix</th>
+                    <th>Temps</th>
+                    <th>Disponibilite</th>
+                    <th>Nombre places</th>
+                    <th>Arrivée</th>
+                    <th>Départ</th>
+                    <th>Avion</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="vol in volListe" :key="vol.vol_id">
+                    <td>{{ vol.vol_id }}</td>
+                    <td>{{ vol.prix }}</td>
+                    <td>{{ vol.temps }}</td>
+                    <td>{{ vol.disponibilite }}</td>
+                    <td>{{ vol.nb_place }}</td>
+                    <td>{{ vol.FK_Aeroport_arrivee }}</td>
+                    <td>{{ vol.FK_Aeroport_depart }}</td>
+                    <td>{{ vol.FK_avion }}</td>
+                    <td>
+                        <button class="edit-btn" @click="modifierAeroport(aeroport.id_aeroport)">Modifier</button>
+                        <button class="delete-btn" @click="supprimerAeroport(aeroport.id_aeroport)">Supprimer</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table id="table-manager2">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Code IATA</th>
+                    <th>Ville</th>
+                    <th>Pays</th>
+                    <th>Distance (km)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="aeroport in aeroListe" :key="aeroport.id_aeroport">
+                    <td>{{ aeroport.id_aeroport }}</td>
+                    <td>{{ aeroport.code_IATA }}</td>
+                    <td>{{ aeroport.ville }}</td>
+                    <td>{{ aeroport.pays }}</td>
+                    <td>{{ aeroport.distance_montreal }}</td>
+                    <td>
+                        <button class="edit-btn" @click="modifierAeroport(aeroport.id_aeroport)">Modifier</button>
+                        <button class="delete-btn" @click="supprimerAeroport(aeroport.id_aeroport)">Supprimer</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table id="table-manager3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Modele</th>
+                    <th>Capacite</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="avion in avionListe" :key="avion.avion_id">
+                    <td>{{ avion.avion_id }}</td>
+                    <td>{{ avion.modele }}</td>
+                    <td>{{ avion.capacite }}</td>
+                    <td>
+                        <button class="edit-btn" @click="modifierAeroport(aeroport.id_aeroport)">Modifier</button>
+                        <button class="delete-btn" @click="supprimerAeroport(aeroport.id_aeroport)">Supprimer</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-
 </template>
 
-<style lang="css">
-.table-manager {
-    display:flex;
-    align-items: center;
+<style scoped>
+.container {
+    padding: 5px;
+    padding-top: 50px;
+    max-width: 800px;
+    margin: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+th {
+    background-color: #f4f4f4;
+}
+button {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+.edit-btn {
+    background-color: #ffc107;
+    color: black;
+    margin-right: 5px;
+}
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+button:hover {
+    opacity: 0.8;
 }
 </style>
 
@@ -43,120 +137,32 @@ export default {
   },
   data() {
     return {
-        aeroListe: "",
-        volListe: "",
-        avionListe: "",
-        aeroportTest: "",
+        aeroListe: [],
+        volListe: [],
+        avionListe: [],
     };
   },
-  beforeMount() {
-    this.aeroportGet();
-    this.volGet();
-    this.avionGet();
-  },
-  mounted(){
-    this.carteAeroTexte(1);
+  async mounted(){
+    this.aeroListe = await this.aeroportGet();
+    this.avionListe = await this.avionGet();
+    this.volListe = await this.volGet();
   },
   methods: {
     async aeroportGet(){
         const response = await get('aeroports');
-        this.aeroListe = response.body; 
-        return this.aeroListe;
-        //console.log('dans aeroportGet'+response.body);
+        return response.body || [];
     },
-    async aeroGetCode(id){
-        const response = await get('aeroports');
-        const aero = response.body; 
-        
-        const aeroport = aero.find(a => a.id_aeroport === id);
-
-        if (aeroport) {
-            return aeroport.code_IATA;
-        } else {
-            console.error("Aéroport non trouvé !");
-        }
-    },
-    async aeroGetVille(id){
-        const response = await get('aeroports');
-        const aero = response.body;
-        console.log(aero); 
-        
-        const aeroport = aero.find(a => a.id_aeroport === id);
-        console.log(aeroport);
-        if (aeroport) {
-            console.log(aeroport.ville);
-            return aeroport.ville;
-        } else {
-            console.error("Aéroport non trouvé !");
-        }
-    },
-    async aeroGetPays(id){
-        const response = await get('aeroports');
-        const aero = response.body; 
-        
-        const aeroport = aero.find(a => a.id_aeroport === id);
-
-        if (aeroport) {
-            return aeroport.pays;
-        } else {
-            console.error("Aéroport non trouvé !");
-        }
-    },
-    async aeroGetDist(id){
-        const response = await get('aeroports');
-        const aero = response.body; 
-        
-        const aeroport = aero.find(a => a.id_aeroport === id);
-
-        if (aeroport) {
-            return aeroport.distance_montreal;
-        } else {
-            console.error("Aéroport non trouvé !");
-        }
-    },
-
+    
     async volGet(){
         const response = await get('vols');
-        this.volListe = response.body; 
+        return response.body || []; 
     },
 
     async avionGet(){
         const response = await get('avions');
-        this.avionListe = response.body; 
+        return response.body || []; 
     },
 
-    async carteAeroTexte(id) {
-      const codeIata = await this.aeroGetCode(id) || "Unknown";
-      const ville = await this.aeroGetVille(id) || "Unknown";
-      const pays = await this.aeroGetPays(id) || "Unknown";
-      const dist = await this.aeroGetDist(id) || "Unknown";
-      console.log(id+' '+codeIata+' '+ville+' '+pays+' '+dist);
-      return `Aeroport ${id} code IATA:${codeIata} ville:${ville}
-             pays:${pays} distance de Montréal:${dist}`;
-    },
-
-    carteVolTexte(id) {
-      const depart = volGetDepart(id) || "Unknown";
-      const arrivee = volGetArrivee(id) || "Unknown";
-      const date = volGetDate(id) || "Unknown";
-      const time = volGetTime(id) || "Unknown";
-
-      return `Vol ${id} départ:${depart} arrivée:${arrivee}
-             date:${date} time:${time}`;
-      
-    },
-    volGetDepart(id){
-        const vol = this.getVolHtml(id);
-        return vol['FK_Aeroport_depart'];
-    },
-    volGetArrivee(id){
-        const vol = this.getVolHtml(id);
-        return vol['FK__Aeroport_arrive'];
-    },
-    volGetTemps(id){
-        const vol = this.getVolHtml(id);
-        return vol['temps'];
-    },
   }
 };
 </script>
