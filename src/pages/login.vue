@@ -226,16 +226,28 @@ export default {
       this.selected_option = option;
     },
     async submit_connect() {
-      if (!this.email || !this.password) {
-        this.emailError = !this.email;
-        this.passwordError = !this.password;
-        return;
-      }
-      const userData = { email: this.email, password: this.password };
-      const response = await post("utilisateurs/sign-in", userData);
-      if (response.status !== HTTP_STATUS_CODES.OK) {
-        this.passwordError2 = true;
-        this.password = "";
+      const userData = {
+        adresse_courriel: this.email,
+        mot_de_passe: this.password,
+      };
+
+      try {
+        const { status, body } = await post("utilisateurs/sign-in", userData);
+
+        if (status === 200) {
+          console.log("Réponse:", body);
+
+          // Stocker le token dans le localStorage
+          localStorage.setItem("token", body.token);
+          localStorage.setItem("role", body.role); // Si le backend renvoie aussi le rôle
+
+          this.$router.push("/");
+        } else {
+          this.passwordError2 = true;
+          this.password = "";
+        }
+      } catch (error) {
+        console.error("Erreur de connexion:", error);
       }
     },
     async submit_signup() {
