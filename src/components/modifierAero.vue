@@ -13,7 +13,7 @@
                     Code IATA
                 </div>
                 <div class="boxsaisieAj">
-                    <input v-model="codeIata" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_iata">
+                    <input v-model="codeIata" class = "barreSaisieAj" type="text" placeholder="Chargement..." id="AA_iata">
 
                 </div>
         
@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="boxsaisieAj">
-                        <input v-model="ville" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_ville">
+                        <input v-model="ville" class = "barreSaisieAj" type="text" placeholder="Chargement..." id="AA_ville">
 
                     </div>
             
@@ -40,7 +40,7 @@
                     </div>
                     
                     <div class="boxsaisieAj">
-                        <input v-model="pays" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_pays">
+                        <input v-model="pays" class = "barreSaisieAj" type="text" placeholder="Chargement..." id="AA_pays">
 
                     </div>
                 
@@ -53,7 +53,7 @@
                 </div>
                     
                 <div class="boxsaisieAj">
-                    <input v-model="distance" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_distance">
+                    <input v-model="distance" class = "barreSaisieAj" type="text" placeholder="Chargement..."    id="AA_distance">
 
                 </div>
             </div>
@@ -70,12 +70,14 @@
 </template>
 
 <script>
+import { get } from "../assets/utils/communications";
 import { put } from "../assets/utils/communications";
 import { useDialog } from '../assets/utils/dialog.js';
 import dialogBox from '../components/dialogBox.vue';
 
 export default {
     name:"modifierAero",
+    props: ["id_aero"],
     data() {
         return {
             codeIata: '',
@@ -84,12 +86,22 @@ export default {
             distance: '',
         };
     },
+    async mounted(){
+        if(this.id_aero){
+            const reponse = await get('aeroports/'+this.id_aero);
+            const data = reponse.body;
+            this.codeIata = data.code_IATA;
+            this.ville = data.ville;
+            this.pays = data.pays;
+            this.distance = data.distance_montreal;
+        }
+    },
     setup() {
         const dialog = useDialog();
         return { dialog };
     },
     methods: {
-        async modAero(id_aero) {
+        async modAero() {
             const body = {
                 code_IATA: this.codeIata,
                 ville: this.ville,
@@ -99,7 +111,7 @@ export default {
 
             console.log("Données à envoyer :", body); // Vérification
 
-            const reponse = await put('aeroports/'+id_aero, body);
+            const reponse = await put('aeroports/'+this.id_aero, body);
 
             if(reponse.status===200){
                 await this.dialog.alert('Modification réussie !');

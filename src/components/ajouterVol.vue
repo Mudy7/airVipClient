@@ -1,79 +1,82 @@
 <template>
 
-    <transition name="dialog">
-        <div class="boxVA dialog">
-            <div>
-                <div class = "enteteVA">
-                    Ajout de vol
-                </div>
-    
-                <div class="boxModifierVA">
-    
-                        <div class="titreSaisieVA">
-                            Temps
-                        </div>
-                        <div class="boxsaisieVA">
-                            <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_temps">
-    
-                        </div>
-            
-                </div>
-    
-                <div class="boxModifierVA">
-    
-                        <div class="titreSaisieVA">
-                            Disponibilité
-                        </div>
-    
-                        <div class="boxsaisieVA">
-                            <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_disponibilite">
-    
-                        </div>
-                
-                </div>
-    
-                <div class="boxModifierVA">
-                    
-                    
-                        <div class="titreSaisieVA">
-                            Nombre de place
-                        </div>
-                        
-                        <div class="boxsaisieVA">
-                            <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_place">
-    
-                        </div>
-                    
-                </div>
-    
-                <div class="boxModifierVA">
-    
-                    <div class="titreSaisieVA">
-                        Distance de Montréal
-                    </div>
-                        
-                    <div class="boxsaisieVA">
-                        <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="AA_distance">
-    
-                    </div>
-                </div>
-    
-                <div>
-                    <button @click="VAouter"class="boutonConfirmerVA">Confirmer</button>
-                </div>
-    
-                <button @click="$emit('fermer')" class="btnAnnulerVA">Annuler</button>
-            </div>    
+    <div class="boxVA">
+
+        <div class = "enteteVA">
+            Ajouter de Vol
         </div>
-    </transition>
-    <div class="dialog-bg" @click="$emit('fermer')"></div>
-    </template>
-    
-    <script>
-    export default {
-        name:"VAouterVol"
-      }
-    </script>
+
+
+
+        <div class="boxModifierVA">
+
+            
+                <div class="titreSaisieVA">
+                    Temps du vol
+                </div>
+                <div class="boxsaisieVA">
+                    <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_temps">
+
+                </div>
+            
+
+
+
+        </div>
+
+
+        <div class="boxModifierVA">
+
+           
+
+                <div class="titreSaisieVA">
+                    Disponibilité
+                </div>
+
+                <div class="boxsaisieVA">
+                    <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_disponibilite">
+
+                </div>
+           
+
+
+        </div>
+
+
+        <div class="boxModifierVA">
+            
+            
+                <div class="titreSaisieVA">
+                    Nombre de place
+                </div>
+                
+                <div class="boxsaisieVA">
+                    <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_place">
+
+                </div>
+            
+
+        </div>
+
+
+
+
+        <div>
+            <button class="boutonConfirmerVA">Confirmer</button>
+        </div>
+
+    </div>
+
+
+
+
+</template>
+
+<script>
+export default {
+    name:"ajouterVol"
+  }
+</script>
 
 
 

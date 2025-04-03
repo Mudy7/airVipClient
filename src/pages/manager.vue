@@ -57,7 +57,7 @@
                     <td>{{ aeroport.distance_montreal }}</td>
                     <td>
                         <button class="edit-btn" @click="modifierAeroport(aeroport.id_aeroport)">Modifier</button>
-                        <modifierAero v-if="showModifierAero" @fermer="showModifierAero = false" />
+                        <modifierAero v-if="showModifierAero" @fermer="showModifierAero = false" :id_aero="selectedId"/>
                         <button class="delete-btn" @click="supprimerAeroport(aeroport.id_aeroport)">Supprimer</button>
                     </td>
                 </tr>
@@ -145,7 +145,7 @@ import Sidebar from "../components/sidebar.vue";
 import Navbar from "../components/navbar2.vue";
 import dropDown from "../components/dropDown.vue";
 import InputText from 'primevue/inputtext';
-import { get } from "../assets/utils/communications";
+import { get } from "../assets/utils/communications"; 
 import { del } from "../assets/utils/communications";
 import { useDialog } from '../assets/utils/dialog.js';
 import dialogBox from '../components/dialogBox.vue';
@@ -155,7 +155,6 @@ import ajouterAvion from "../components/ajouterAvion.vue";
 import modifierVol from "../components/modifierVol.vue";
 import modifierAvion from "../components/modifierAvion.vue";
 import modifierAero from "../components/modifierAero.vue";
-
 
 export default {
   components: {
@@ -177,6 +176,7 @@ export default {
   },
   data() {
     return {
+        selectedId: '',
         aeroListe: [],
         volListe: [],
         avionListe: [],
@@ -307,9 +307,10 @@ export default {
         this.showAjouterAvion = true;
     },
 
-    async modifierAeroport(){
+    async modifierAeroport(id_aero){
         // ouvrir un nouveau modifierAero
         this.showModifierAero = true;
+        this.selectedId = id_aero;
     },
     async modifierVol(){
         // ouvrir un nouveau modifierVol
