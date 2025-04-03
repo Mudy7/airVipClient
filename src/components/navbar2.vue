@@ -28,6 +28,7 @@
             <a href="/" class="tracking-widest hover:text-primary">Home</a>
             <a href="#" class="tracking-widest hover:text-primary">About</a>
             <a href="#" class="tracking-widest hover:text-primary">Contact</a>
+            <a v-if="isAdmin" href="/manager" class="tracking-widest hover:text-primary text-sm">Manager</a>
           </div>
 
           <!-- Actions -->
@@ -59,10 +60,13 @@
                   v-if="isDropdownOpen"
                   class="absolute right-0 mt-3 w-48 bg-white text-black shadow-lg rounded-lg py-2 z-50"
                 >
-                  <div v-if="isAuthenticated">
+                  <div v-if="isAuthenticated" class="centered-div">
                     <button @click="logout" class="block px-4 py-2 hover:bg-gray-200">
                       Se déconnecter
                     </button>
+                    <a href="/profil" class="block px-4 py-2 hover:bg-gray-200">
+                      Profil
+                    </a>
                   </div>
                   <div v-else>
                     <a href="/login" class="block px-4 py-2 hover:bg-gray-200">
@@ -137,6 +141,7 @@
       logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
+        localStorage.removeItem("userId");
         this.isAuthenticated = false;
         this.isAdmin = false;
         this.$router.push("/login");
@@ -144,6 +149,7 @@
       checkAuth() {
         const token = localStorage.getItem("token");
         const role = localStorage.getItem("role"); // Stocke le rôle dans le localStorage lors de la connexion
+        const userId = localStorage.getItem("userId");
         this.isAuthenticated = !!token;
         this.isAdmin = role === "admin";
       },
@@ -174,6 +180,13 @@
 
 
 <style scoped>
+.centered-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 /* Dropdown Fade */
 .fade-enter-active,
 .fade-leave-active {

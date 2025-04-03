@@ -3,7 +3,7 @@ import HomeView from "./pages/homePage.vue";
 import Login from "./pages/login.vue";
 import Search from "./pages/search.vue";
 import Manager from "./pages/manager.vue";
-//import Flight from "./pages/flightDetail.vue";
+import Profil from "./pages/profil.vue";
 import Flight from "./pages/flightDetail.vue";
 
 const routes = [
@@ -11,8 +11,7 @@ const routes = [
   { path: "/login", component: Login }, //login
   { path: "/search", component: Search }, //search
   { path: "/flight", component: Flight }, //flight
-  { path: "/login", component: Login }, //login
-  { path: "/search", component: Search }, //search
+  { path: "/profil", component: Profil }, // page de profil
   { path: "/manager", component: Manager,
     beforeEnter: (to, from, next) => {
       const role = localStorage.getItem("role");
@@ -23,7 +22,6 @@ const routes = [
       }
     }
   },
-  //{ path: "/flight", component: Flight }, //flight
 ];
 
 const router = createRouter({

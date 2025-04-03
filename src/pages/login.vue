@@ -222,9 +222,10 @@ export default {
       if (status === 200) { 
         console.log("Réponse:", body);
 
-        // Stocker le token dans le localStorage
+        // Stocker le token, le role et le id de l'utilisateur dans le localStorage
         localStorage.setItem("token", body.token);
-        localStorage.setItem("role", body.role); // Si le backend renvoie aussi le rôle
+        localStorage.setItem("role", body.role); 
+        localStorage.setItem("userId", body.id);
 
         this.$router.push("/");
       } else {
@@ -286,7 +287,7 @@ export default {
   } catch (error) {
     console.error("Signup failed:", error.message);
     this.emailError = true;
-    this.emailErrorText = "Erreur du serveur. Veuillez réessayer.";
+    this.emailErrorText = "Cette adresse est déja associé à un compte. Veuillez réessayer.";
   }
 },
   },
