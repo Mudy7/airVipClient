@@ -2,7 +2,7 @@
 
     <transition name="dialog">
         <div class="boxVA dialog">
-            <div>
+            <div class="heightboxVA">
                 <div class = "enteteVA">
                     Ajout de vol
                 </div>
@@ -45,24 +45,64 @@
                         </div>
                     
                 </div>
-    
+
+
                 <div class="boxModifierVA">
-    
+                    
+                    
                     <div class="titreSaisieVA">
-                        Distance de Montréal
+                        Aeroport départ
                     </div>
-                        
+                    
                     <div class="boxsaisieVA">
-                        <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="AA_distance">
-    
+                        <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_place">
+
                     </div>
+                
                 </div>
+
+                <div class="boxModifierVA">
+                    
+                    
+                    <div class="titreSaisieVA">
+                        Aeroport arrivée
+                    </div>
+                    
+                    <div class="boxsaisieVA">
+                        <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_place">
+
+                    </div>
+                
+            </div>
+
+            <div class="boxModifierVA">
+                    
+                    
+                    <div class="titreSaisieVA">
+                        Avion
+                    </div>
+                    
+                    <div class="boxsaisieVA">
+
+                        <select id="choix">
+                            <option v-model= " " value="1"></option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                        </select>
+
+
+                    </div>
+                
+            </div>
     
-                <div>
-                    <button @click="VAouter"class="boutonConfirmerVA">Confirmer</button>
-                </div>
+
+    
+                <div class="classButtonVA">
+
     
                 <button @click="$emit('fermer')" class="btnAnnulerVA">Annuler</button>
+                <button @click="ajVol"class="boutonConfirmerVA">Confirmer</button>
+                </div>
             </div>    
         </div>
     </transition>
@@ -70,19 +110,81 @@
     </template>
     
     <script>
-    export default {
-        name:"VAouterVol"
-      }
+
+        import { post } from "../assets/utils/communications";
+        import { useDialog } from '../assets/utils/dialog.js';
+        import dialogBox from '../components/dialogBox.vue';
+
+
+        export default {
+            name:"VAouterVol",
+            data() {
+                return {
+                    temps: '',
+                    disponibilite: '',
+                    nb_place: '',
+                };
+
+            },
+
+            setup() {
+                const dialog = useDialog();
+                return { dialog };
+            },
+
+            methods: {
+        async ajVol() {
+            const body = {
+                temps: this.temps,
+                disponibilite: this.disponibilite,
+                nb_place: this.nb_place,
+            };
+
+            console.log("Données à envoyer :", body); // Vérification
+
+            const reponse = await post('vols', body);
+
+            if(reponse.status===200){
+                await this.dialog.alert('Ajout réussi !');
+                //!!!!!!! RAFRAICHIR LA PAGE
+                window.location.reload(true);
+            } else {
+                await this.dialog.alert('Erreur de l\'ajout');
+            }
+        }
+    }
+}
+
     </script>
 
 
 
 <style>
+
+
+    .heightboxVA{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+
+    }
+
+    .classButtonVA{
+        display: flex;
+        flex-direction: row; /* Empile les éléments en colonne */
+        align-items: center; /* Centre horizontalement */
+        gap: 20px; /* Espace entre les boutons */
+        margin-top: auto;
+        padding-left: 45px;
+        
+    }
+
     .boxVA {
         justify-content: center;
         align-self: center;
         width: 480px;
-        height: 470px;
+        height: 600px;
         background-color: rgb(231, 251, 231);
         border: 3px solid rgb(65,65,65);
         
