@@ -4,12 +4,13 @@ import Login from "./pages/login.vue";
 import Search from "./pages/search.vue";
 import Manager from "./pages/manager.vue";
 import Profil from "./pages/profil.vue";
-//import Flight from "./pages/flightDetail.vue";
+import Flight from "./pages/flightDetail.vue";
 
 const routes = [
   { path: "/", component: HomeView }, // Home Page
   { path: "/login", component: Login }, //login
   { path: "/search", component: Search }, //search
+  { path: "/flight", component: Flight }, //flight
   { path: "/profil", component: Profil }, // page de profil
   { path: "/manager", component: Manager,
     beforeEnter: (to, from, next) => {
@@ -21,7 +22,6 @@ const routes = [
       }
     }
   },
-  //{ path: "/flight", component: Flight }, //flight
 ];
 
 const router = createRouter({

@@ -29,7 +29,7 @@
                     <td>{{ vol.FK_avion }}</td>
                     <td>
                         <button class="edit-btn" @click="modifierVol(vol.vol_id)">Modifier</button>
-                        <modifierVol v-if="showModifierVol" @fermer="showModifierVol = false" />
+                        <modifierVol v-if="showModifierVol" @fermer="showModifierVol = false" :id_vol="selectedId"/>
                         <button class="delete-btn" @click="supprimerVol(vol.vol_id)">Supprimer</button>
                     </td>
                 </tr>
@@ -57,7 +57,7 @@
                     <td>{{ aeroport.distance_montreal }}</td>
                     <td>
                         <button class="edit-btn" @click="modifierAeroport(aeroport.id_aeroport)">Modifier</button>
-                        <modifierAero v-if="showModifierAero" @fermer="showModifierAero = false" />
+                        <modifierAero v-if="showModifierAero" @fermer="showModifierAero = false" :id_aero="selectedId"/>
                         <button class="delete-btn" @click="supprimerAeroport(aeroport.id_aeroport)">Supprimer</button>
                     </td>
                 </tr>
@@ -80,10 +80,15 @@
                     <td>{{ avion.avion_id }}</td>
                     <td>{{ avion.modele }}</td>
                     <td>{{ avion.capacite }}</td>
-                    <td>{{ avion.image }}</td>
+                    <td class="grid justify-items-center">
+                        <img
+                            :src="imgListe[0].url"
+                            class="w-40 h-25 object-cover transition duration-300 ease-in-out"
+                        />
+                    </td>
                     <td>
                         <button class="edit-btn" @click="modifierAvion(avion.avion_id)">Modifier</button>
-                        <modifierAvion v-if="showModifierAvion" @fermer="showModifierAvion = false" />
+                        <modifierAvion v-if="showModifierAvion" @fermer="showModifierAvion = false" :id_avion="selectedId"/>
                         <button class="delete-btn" @click="supprimerAvion(avion.avion_id)">Supprimer</button>
                     </td>
                 </tr>
@@ -145,7 +150,7 @@ import Sidebar from "../components/sidebar.vue";
 import Navbar from "../components/navbar2.vue";
 import dropDown from "../components/dropDown.vue";
 import InputText from 'primevue/inputtext';
-import { get } from "../assets/utils/communications";
+import { get } from "../assets/utils/communications"; 
 import { del } from "../assets/utils/communications";
 import { useDialog } from '../assets/utils/dialog.js';
 import dialogBox from '../components/dialogBox.vue';
@@ -155,7 +160,6 @@ import ajouterAvion from "../components/ajouterAvion.vue";
 import modifierVol from "../components/modifierVol.vue";
 import modifierAvion from "../components/modifierAvion.vue";
 import modifierAero from "../components/modifierAero.vue";
-
 
 export default {
   components: {
@@ -177,9 +181,11 @@ export default {
   },
   data() {
     return {
+        selectedId: '',
         aeroListe: [],
         volListe: [],
         avionListe: [],
+        imgListe: [],
         showAjouterAero: false,
         showAjouterVol: false,
         showAjouterAvion: false,
@@ -201,6 +207,8 @@ export default {
     
     async volGet(){
         const response = await get('vols');
+        this.imgListe = response.body[0].avion.images || [];
+        console.log(this.imgListe);
         return response.body || []; 
     },
 
@@ -208,6 +216,7 @@ export default {
         const response = await get('avions');
         return response.body || []; 
     },
+
 
     async supprimerAeroport(id_aeroport){
         
@@ -229,6 +238,7 @@ export default {
                 if(response.status===204){
                     await this.dialog.alert('Suppression réussie : aéroport '+id_aeroport);
                     //!!!!!!! RAFRAICHIR LA PAGE
+                    window.location.reload();
                 } else {
                     await this.dialog.alert('Erreur de suppression');
                 }
@@ -256,6 +266,7 @@ export default {
                 if(reponse.status===204){
                     await this.dialog.alert('Suppression réussie : avion '+id_avion);
                     //!!!!!!! RAFRAICHIR LA PAGE
+                    window.location.reload();
                 } else {
                     await this.dialog.alert('Erreur de suppression');
                 }
@@ -283,6 +294,7 @@ export default {
                 if(reponse.status===204){
                     await this.dialog.alert('Suppression réussie : vol '+id_vol);
                     //!!!!!!! RAFRAICHIR LA PAGE
+                    window.location.reload(true);
                 } else {
                     await this.dialog.alert('Erreur de suppression');
                 }
@@ -293,20 +305,7 @@ export default {
     async ajouterAeroport(){
         // ouvrir un nouveau ajouterAero
         this.showAjouterAero = true;
-        //!! changer les noms des éléments du DOM
-        /*const codeIata = AA_iata
-        const ville = AA_ville
-        const pays = AA_pays
-        const dist = AA_dist;
-
-        const body = '{"code_IATA":"'+codeIata+'", "ville":"'+ville+'", "pays":"'+pays+'", "distance_montreal":"'+dist+'"}';
-
-        // onSubmit()
-        {
-            const reponse = await post('aeroports', body);
-
-        }
-            */
+            
     },
     async ajouterVol(){
         // ouvrir un nouveau ajouterVol
@@ -317,17 +316,20 @@ export default {
         this.showAjouterAvion = true;
     },
 
-    async modifierAeroport(){
+    async modifierAeroport(id_aero){
         // ouvrir un nouveau modifierAero
         this.showModifierAero = true;
+        this.selectedId = id_aero;
     },
-    async modifierVol(){
+    async modifierVol(id_vol){
         // ouvrir un nouveau modifierVol
         this.showModifierVol = true;
+        this.selectedId = id_vol;
     },
-    async modifierAvion(){
+    async modifierAvion(id_avion){
         // ouvrir un nouveau modifierAvion
         this.showModifierAvion = true;
+        this.selectedId = id_avion;
     },
 
   }

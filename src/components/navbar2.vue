@@ -178,6 +178,7 @@
 </script>
 
 
+
 <style scoped>
 .centered-div {
   display: flex;
