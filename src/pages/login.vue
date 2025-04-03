@@ -208,11 +208,7 @@ export default {
   name: "CreateAccount",
   data() {
     return {
-<<<<<<< HEAD
       email: "",
-=======
-      email: "", 
->>>>>>> bd5bc1fe3584125596a9de40b8cdd39117175823
       password: "",
       selected_option: "Se connecter",
       emailError: false,
@@ -230,7 +226,6 @@ export default {
       this.selected_option = option;
     },
     async submit_connect() {
-<<<<<<< HEAD
       if (!this.email || !this.password) {
         this.emailError = !this.email;
         this.passwordError = !this.password;
@@ -283,72 +278,6 @@ export default {
         role: "client",
       };
 
-=======
-    const userData = {
-      adresse_courriel: this.email,
-      mot_de_passe: this.password
-    };
-
-    try {
-      const { status, body } = await post("utilisateurs/sign-in", userData);
-
-      if (status === 200) { 
-        console.log("Réponse:", body);
-
-        // Stocker le token dans le localStorage
-        localStorage.setItem("token", body.token);
-        localStorage.setItem("role", body.role); // Si le backend renvoie aussi le rôle
-
-        this.$router.push("/");
-      } else {
-        this.passwordError2 = true;
-        this.password = "";
-      }
-    } catch (error) {
-      console.error("Erreur de connexion:", error);
-    }
-  },
-    async submit_signup() {
-      // Reset all error states
-      this.emailError = false;
-      this.firstNameError = false;
-      this.nameError = false;
-      this.passwordError = false;
-      this.emailErrorText = "";
-      this.firstNameErrorText = "";
-      this.nameErrorText = "";
-      this.passwordErrorText = "";
-
-      // Validate fields
-      if (!this.email || !this.password || !this.name || !this.firstName) {
-        if (!this.email) {
-          this.emailError = true;
-          this.emailErrorText = "Email requis";
-        }
-        if (!this.firstName) {
-          this.firstNameError = true;
-          this.firstNameErrorText = "Prénom requis";
-        }
-        if (!this.name) {
-          this.nameError = true;
-          this.nameErrorText = "Nom requis";
-        }
-        if (!this.password) {
-          this.passwordError = true;
-          this.passwordErrorText = "Mot de passe requis";
-        }
-        return;
-      }
-
-      const userData = {
-        adresse_courriel: this.email,
-        mot_de_passe: this.password,
-        nom: this.name,
-        prenom: this.firstName,
-        role: 'client' 
-      };
-
->>>>>>> bd5bc1fe3584125596a9de40b8cdd39117175823
       try {
         const response = await post("utilisateurs/sign-up", userData);
         if (response.status === 201) {
