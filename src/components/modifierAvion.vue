@@ -13,7 +13,7 @@
                             Modele
                         </div>
                         <div class="boxsaisieAj">
-                            <input v-model="modele" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_iata">
+                            <input v-model="modele" class = "barreSaisieAj" type="text" placeholder="Chargement..." id="AA_iata">
     
                         </div>
             
@@ -26,7 +26,7 @@
                         </div>
     
                         <div class="boxsaisieAj">
-                            <input v-model="capacite" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_ville">
+                            <input v-model="capacite" class = "barreSaisieAj" type="text" placeholder="Chargement..." id="AA_ville">
     
                         </div>
                 
@@ -44,17 +44,27 @@
 </template>
     
     <script>
+    import { get } from "../assets/utils/communications";
     import { put } from "../assets/utils/communications";
     import { useDialog } from '../assets/utils/dialog.js';
     import dialogBox from '../components/dialogBox.vue';
 
     export default {
         name:"modifierAvion",
+        props: ["id_avion"],
     data() {
         return {
             modele: '',
             capacite: '',
         };
+    },
+    async mounted(){
+        if(this.id_avion){
+            const reponse = await get('avions/'+this.id_avion);
+            const data = reponse.body;
+            this.modele = data.modele;
+            this.capacite = data.capacite;
+        }
     },
     setup() {
         const dialog = useDialog();

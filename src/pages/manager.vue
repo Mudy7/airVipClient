@@ -29,7 +29,7 @@
                     <td>{{ vol.FK_avion }}</td>
                     <td>
                         <button class="edit-btn" @click="modifierVol(vol.vol_id)">Modifier</button>
-                        <modifierVol v-if="showModifierVol" @fermer="showModifierVol = false" />
+                        <modifierVol v-if="showModifierVol" @fermer="showModifierVol = false" :id_vol="selectedId"/>
                         <button class="delete-btn" @click="supprimerVol(vol.vol_id)">Supprimer</button>
                     </td>
                 </tr>
@@ -80,10 +80,15 @@
                     <td>{{ avion.avion_id }}</td>
                     <td>{{ avion.modele }}</td>
                     <td>{{ avion.capacite }}</td>
-                    <td>{{ avion.image }}</td>
+                    <td class="grid justify-items-center">
+                        <img
+                            :src="imgListe[0].url"
+                            class="w-40 h-25 object-cover transition duration-300 ease-in-out"
+                        />
+                    </td>
                     <td>
                         <button class="edit-btn" @click="modifierAvion(avion.avion_id)">Modifier</button>
-                        <modifierAvion v-if="showModifierAvion" @fermer="showModifierAvion = false" />
+                        <modifierAvion v-if="showModifierAvion" @fermer="showModifierAvion = false" :id_avion="selectedId"/>
                         <button class="delete-btn" @click="supprimerAvion(avion.avion_id)">Supprimer</button>
                     </td>
                 </tr>
@@ -180,6 +185,7 @@ export default {
         aeroListe: [],
         volListe: [],
         avionListe: [],
+        imgListe: [],
         showAjouterAero: false,
         showAjouterVol: false,
         showAjouterAvion: false,
@@ -201,6 +207,8 @@ export default {
     
     async volGet(){
         const response = await get('vols');
+        this.imgListe = response.body[0].avion.images || [];
+        console.log(this.imgListe);
         return response.body || []; 
     },
 
@@ -208,6 +216,7 @@ export default {
         const response = await get('avions');
         return response.body || []; 
     },
+
 
     async supprimerAeroport(id_aeroport){
         
@@ -312,13 +321,15 @@ export default {
         this.showModifierAero = true;
         this.selectedId = id_aero;
     },
-    async modifierVol(){
+    async modifierVol(id_vol){
         // ouvrir un nouveau modifierVol
         this.showModifierVol = true;
+        this.selectedId = id_vol;
     },
-    async modifierAvion(){
+    async modifierAvion(id_avion){
         // ouvrir un nouveau modifierAvion
         this.showModifierAvion = true;
+        this.selectedId = id_avion;
     },
 
   }

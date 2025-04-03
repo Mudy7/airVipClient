@@ -106,7 +106,6 @@
 
 <script>
   import SearchBar from "./searchbarSolid.vue";
-  import SearchBar from "./searchbarSolid.vue";
 
   export default {
     components: {
