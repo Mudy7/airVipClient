@@ -1,19 +1,19 @@
 <template>
 
     <transition name="dialog">
-        <div class="boxAj dialog">
+        <div class="boxAjAvion dialog">
             <div>
                 <div class = "enteteAj">
-                    Ajouter de l'aéroport
+                    Ajouter un avion
                 </div>
     
                 <div class="boxModifierAj">
     
                         <div class="titreSaisieAj">
-                            Code IATA
+                            Modele
                         </div>
                         <div class="boxsaisieAj">
-                            <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_iata">
+                            <input v-model="modele" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_iata">
     
                         </div>
             
@@ -22,44 +22,18 @@
                 <div class="boxModifierAj">
     
                         <div class="titreSaisieAj">
-                            Ville
+                            Capacite
                         </div>
     
                         <div class="boxsaisieAj">
-                            <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_ville">
+                            <input v-model="capacite" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_ville">
     
                         </div>
                 
                 </div>
     
-                <div class="boxModifierAj">
-                    
-                    
-                        <div class="titreSaisieAj">
-                            Pays
-                        </div>
-                        
-                        <div class="boxsaisieAj">
-                            <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_pays">
-    
-                        </div>
-                    
-                </div>
-    
-                <div class="boxModifierAj">
-    
-                    <div class="titreSaisieAj">
-                        Distance de Montréal
-                    </div>
-                        
-                    <div class="boxsaisieAj">
-                        <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_distance">
-    
-                    </div>
-                </div>
-    
                 <div>
-                    <button @click="ajouter"class="boutonConfirmerAj">Confirmer</button>
+                    <button @click="ajAvion"class="boutonConfirmerAj">Confirmer</button>
                 </div>
     
                 <button @click="$emit('fermer')" class="btnAnnuler">Annuler</button>
@@ -70,8 +44,42 @@
     </template>
 
     <script>
+    import { post } from "../assets/utils/communications";
+    import { useDialog } from '../assets/utils/dialog.js';
+    import dialogBox from '../components/dialogBox.vue';
+
     export default {
-        name:"ajouterAvion"
+        name:"ajouterAvion",
+        data() {
+            return {
+                modele: '',
+                capacite: '',
+            };
+        },
+        setup() {
+            const dialog = useDialog();
+            return { dialog };
+        },
+        methods: {
+            async ajAvion() {
+                const body = {
+                    modele: this.modele,
+                    capacite: this.capacite,
+                };
+
+                console.log("Données à envoyer :", body); // Vérification
+
+                const reponse = await post('avions', body);
+
+                if(reponse.status===200){
+                    await this.dialog.alert('Ajout réussi !');
+                    //!!!!!!! RAFRAICHIR LA PAGE
+                    window.location.reload(true);
+                } else {
+                    await this.dialog.alert('Erreur de l\'ajout');
+                }
+            }
+        }
     }
     </script>   
     
@@ -183,12 +191,12 @@
         }
     
         
-        .boxAj{
+        .boxAjAvion{
     
             justify-content: center;
             align-self: center;
             width: 600px;
-            height: 470px;
+            height: 350px;
             background-color: rgb(231, 251, 231);
             border: 3px solid grey;
             

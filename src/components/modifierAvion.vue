@@ -1,19 +1,19 @@
 <template>
 
-    <transition name="dialog">
-        <div class="boxAj dialog">
+<transition name="dialog">
+        <div class="boxModAvion dialog">
             <div>
-                <div class = "enteteAj">
-                    Ajouter de l'aéroport
+                <div class = "enteteModAvion">
+                    Modifier un avion
                 </div>
     
                 <div class="boxModifierAj">
     
                         <div class="titreSaisieAj">
-                            Code IATA
+                            Modele
                         </div>
                         <div class="boxsaisieAj">
-                            <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_iata">
+                            <input v-model="modele" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_iata">
     
                         </div>
             
@@ -22,70 +22,79 @@
                 <div class="boxModifierAj">
     
                         <div class="titreSaisieAj">
-                            Ville
+                            Capacite
                         </div>
     
                         <div class="boxsaisieAj">
-                            <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_ville">
+                            <input v-model="capacite" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_ville">
     
                         </div>
                 
                 </div>
     
-                <div class="boxModifierAj">
-                    
-                    
-                        <div class="titreSaisieAj">
-                            Pays
-                        </div>
-                        
-                        <div class="boxsaisieAj">
-                            <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_pays">
-    
-                        </div>
-                    
-                </div>
-    
-                <div class="boxModifierAj">
-    
-                    <div class="titreSaisieAj">
-                        Distance de Montréal
-                    </div>
-                        
-                    <div class="boxsaisieAj">
-                        <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_distance">
-    
-                    </div>
-                </div>
-    
                 <div>
-                    <button @click="ajouter"class="boutonConfirmerAj">Confirmer</button>
+                    <button @click="modAvion"class="boutonConfirmerAj">Confirmer</button>
                 </div>
     
                 <button @click="$emit('fermer')" class="btnAnnuler">Annuler</button>
-            </div>    
+            </div>
         </div>
-    </transition>
+</transition>
     <div class="dialog-bg" @click="$emit('fermer')"></div>
-    </template>
+</template>
     
     <script>
+    import { put } from "../assets/utils/communications";
+    import { useDialog } from '../assets/utils/dialog.js';
+    import dialogBox from '../components/dialogBox.vue';
+
     export default {
-        name:"modifierAvion"
-      }
+        name:"modifierAvion",
+    data() {
+        return {
+            modele: '',
+            capacite: '',
+        };
+    },
+    setup() {
+        const dialog = useDialog();
+        return { dialog };
+    },
+    methods: {
+        async modAvion(id_avion) {
+            const body = {
+                modele: this.modele,
+                capacite: this.capacite,
+            };
+
+            console.log("Données à envoyer :", body); // Vérification
+
+            const reponse = await put('avions/'+id_avion, body);
+
+            if(reponse.status===200){
+                await this.dialog.alert('Modification réussie !');
+                //!!!!!!! RAFRAICHIR LA PAGE
+                window.location.reload(true);
+            } else {
+                await this.dialog.alert('Erreur de modification');
+            }
+        }
+    }
+  }
+      
     </script>
     
     
     
     <style>
     
-        .enteteAj{
+        .enteteModAvion{
             
             text-align: center;
             border-bottom: 3px solid grey;
             font-size: 20px;
             font-weight: bold;
-            background-color: rgb(96, 243, 96);
+            background-color: rgb(246, 246, 92);
             padding: 5px 0px;
         }
     
@@ -185,13 +194,13 @@
         }
     
         
-        .boxAj{
+        .boxModAvion{
     
             justify-content: center;
             align-self: center;
             width: 600px;
-            height: 470px;
-            background-color: rgb(231, 251, 231);
+            height: 350px;
+            background-color: rgb(252, 252, 213);
             border: 3px solid grey;
             
             border-radius: 4px;

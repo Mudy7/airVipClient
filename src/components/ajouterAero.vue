@@ -4,7 +4,7 @@
     <div class="boxAj dialog">
         <div>
             <div class = "enteteAj">
-                Ajouter de l'aéroport
+                Ajouter un aéroport
             </div>
 
             <div class="boxModifierAj">
@@ -13,7 +13,7 @@
                         Code IATA
                     </div>
                     <div class="boxsaisieAj">
-                        <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_iata">
+                        <input v-model="codeIata" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_iata">
 
                     </div>
         
@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="boxsaisieAj">
-                        <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_ville">
+                        <input v-model="ville" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_ville">
 
                     </div>
             
@@ -40,7 +40,7 @@
                     </div>
                     
                     <div class="boxsaisieAj">
-                        <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_pays">
+                        <input v-model="pays" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_pays">
 
                     </div>
                 
@@ -53,13 +53,13 @@
                 </div>
                     
                 <div class="boxsaisieAj">
-                    <input class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_distance">
+                    <input v-model="distance" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_distance">
 
                 </div>
             </div>
 
             <div>
-                <button @click="ajouter"class="boutonConfirmerAj">Confirmer</button>
+                <button @click="ajAero"class="boutonConfirmerAj">Confirmer</button>
             </div>
 
             <button @click="$emit('fermer')" class="btnAnnuler">Annuler</button>
@@ -70,9 +70,49 @@
 </template>
 
 <script>
+
+import { post } from "../assets/utils/communications";
+import { useDialog } from '../assets/utils/dialog.js';
+import dialogBox from '../components/dialogBox.vue';
+
 export default {
-    name:"ajouterAero"
-  }
+    name:"ajouterAero",
+    data() {
+        return {
+        codeIata: '',
+        ville: '',
+        pays: '',
+        distance: '',
+        };
+    },
+    setup() {
+        const dialog = useDialog();
+        return { dialog };
+    },
+    methods: {
+        async ajAero() {
+            const body = {
+                code_IATA: this.codeIata,
+                ville: this.ville,
+                pays: this.pays,
+                distance_montreal: this.distance,
+            };
+
+            console.log("Données à envoyer :", body); // Vérification
+
+            const reponse = await post('aeroports', body);
+
+            if(reponse.status===200){
+                await this.dialog.alert('Ajout réussi !');
+                //!!!!!!! RAFRAICHIR LA PAGE
+                window.location.reload(true);
+            } else {
+                await this.dialog.alert('Erreur de l\'ajout');
+            }
+        }
+    }
+}
+
 </script>
 
 
