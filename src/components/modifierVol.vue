@@ -61,7 +61,9 @@
 </template>
 
 <script>
-
+export default {
+    name:"modifierVol"
+  }
 </script>
 
 

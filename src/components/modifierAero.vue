@@ -74,7 +74,9 @@
 </template>
 
 <script>
-
+export default {
+    name:"modifierAero"
+  }
 </script>
 
 

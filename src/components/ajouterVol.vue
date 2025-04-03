@@ -78,7 +78,9 @@
 </template>
 
 <script>
-
+export default {
+    name:"ajouterVol"
+  }
 </script>
 
 

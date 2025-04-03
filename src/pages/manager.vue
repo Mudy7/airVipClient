@@ -2,7 +2,7 @@
     <Navbar class="w-full fixed top-0 left-0 z-20" />
     <div class="container">
         <button class="add-btn" @click="ajouterVol()">Ajouter Vol</button>
-        <ajouterAero v-if="showAjouterAero" @fermer="showAjouterAero = false" />
+        <ajouterVol v-if="showAjouterVol" @fermer="showAjouterVol = false" />
         <table id="table-manager1" class="mb-30px">
             <thead>
                 <tr>
@@ -29,12 +29,14 @@
                     <td>{{ vol.FK_avion }}</td>
                     <td>
                         <button class="edit-btn" @click="modifierVol(vol.vol_id)">Modifier</button>
+                        <modifierVol v-if="showModifierVol" @fermer="showModifierVol = false" />
                         <button class="delete-btn" @click="supprimerVol(vol.vol_id)">Supprimer</button>
                     </td>
                 </tr>
             </tbody>
         </table>
         <button class="add-btn" @click="ajouterAeroport()">Ajouter Aeroport</button>
+        <ajouterAero v-if="showAjouterAero" @fermer="showAjouterAero = false" />
         <table id="table-manager2">
             <thead>
                 <tr>
@@ -55,12 +57,14 @@
                     <td>{{ aeroport.distance_montreal }}</td>
                     <td>
                         <button class="edit-btn" @click="modifierAeroport(aeroport.id_aeroport)">Modifier</button>
+                        <modifierAero v-if="showModifierAero" @fermer="showModifierAero = false" />
                         <button class="delete-btn" @click="supprimerAeroport(aeroport.id_aeroport)">Supprimer</button>
                     </td>
                 </tr>
             </tbody>
         </table>
         <button class="add-btn" @click="ajouterAvion()">Ajouter Avion</button>
+        <ajouterAvion v-if="showAjouterAvion" @fermer="showAjouterAvion = false" />
         <table id="table-manager3">
             <thead>
                 <tr>
@@ -79,6 +83,7 @@
                     <td>{{ avion.image }}</td>
                     <td>
                         <button class="edit-btn" @click="modifierAvion(avion.avion_id)">Modifier</button>
+                        <modifierAvion v-if="showModifierAvion" @fermer="showModifierAvion = false" />
                         <button class="delete-btn" @click="supprimerAvion(avion.avion_id)">Supprimer</button>
                     </td>
                 </tr>
@@ -145,12 +150,11 @@ import { del } from "../assets/utils/communications";
 import { useDialog } from '../assets/utils/dialog.js';
 import dialogBox from '../components/dialogBox.vue';
 import ajouterAero from "../components/ajouterAero.vue";
-/*import ajouterVol from "../components/ajouterVol.vue";
-/*import ajouterAvion from "../components/ajouterAvion.vue";
-
+import ajouterVol from "../components/ajouterVol.vue";
+import ajouterAvion from "../components/ajouterAvion.vue";
 import modifierVol from "../components/modifierVol.vue";
 import modifierAvion from "../components/modifierAvion.vue";
-import modifierAero from "../components/modifierAero.vue";*/
+import modifierAero from "../components/modifierAero.vue";
 
 
 export default {
@@ -161,12 +165,11 @@ export default {
     InputText,
     dialogBox,
     ajouterAero,
-    /*ajouterVol,
+    ajouterVol,
     ajouterAvion,
-    ajouterAero,
     modifierVol,
     modifierAvion,
-    modifierAero*/
+    modifierAero
   },
   setup() {
     const dialog = useDialog();
@@ -178,7 +181,11 @@ export default {
         volListe: [],
         avionListe: [],
         showAjouterAero: false,
-
+        showAjouterVol: false,
+        showAjouterAvion: false,
+        showModifierAero: false,
+        showModifierVol: false,
+        showModifierAvion: false,
     };
   },
   async mounted(){
@@ -303,19 +310,24 @@ export default {
     },
     async ajouterVol(){
         // ouvrir un nouveau ajouterVol
+        this.showAjouterVol = true;
     },
     async ajouterAvion(){
         // ouvrir un nouveau ajouterAvion
+        this.showAjouterAvion = true;
     },
 
     async modifierAeroport(){
         // ouvrir un nouveau modifierAero
+        this.showModifierAero = true;
     },
     async modifierVol(){
         // ouvrir un nouveau modifierVol
+        this.showModifierVol = true;
     },
     async modifierAvion(){
         // ouvrir un nouveau modifierAvion
+        this.showModifierAvion = true;
     },
 
   }
