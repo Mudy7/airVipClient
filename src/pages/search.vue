@@ -359,7 +359,10 @@ export default {
     goToFlightPage(flight) {
       this.$router.push({
         path: "/flight",
-        query: { id: flight.id },
+        query: {
+          id: flight.id,
+          departureDate: flight.departureDate,
+        },
       });
     },
     prevFlightImage(flight) {
@@ -411,7 +414,7 @@ export default {
     },
     getFormattedPrice(flight) {
       const total = flight.price * flight.duration;
-      return total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
     dynamicTitle() {
       const from = this.searchParams[0] || "Unknown";
