@@ -95,7 +95,7 @@ export default {
                 code_IATA: this.codeIata,
                 ville: this.ville,
                 pays: this.pays,
-                distance_montreal: this.distance,
+                distance_montreal: this.distance
             };
 
             console.log("Données à envoyer :", body); // Vérification

@@ -13,7 +13,7 @@
                             Temps
                         </div>
                         <div class="boxsaisieVA">
-                            <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_temps">
+                            <input v-model="temps" class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_temps">
     
                         </div>
             
@@ -26,7 +26,7 @@
                         </div>
     
                         <div class="boxsaisieVA">
-                            <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_disponibilite">
+                            <input v-model="disponibilite" class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_disponibilite">
     
                         </div>
                 
@@ -40,7 +40,7 @@
                         </div>
                         
                         <div class="boxsaisieVA">
-                            <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_place">
+                            <input v-model="nb_place" class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_place">
     
                         </div>
                     
@@ -54,10 +54,11 @@
                         Aeroport départ
                     </div>
                     
-                    <div class="boxsaisieVA">
-                        <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_place">
+                    <select v-model="selectAeroDep">
 
-                    </div>
+                        <option v-for="aero in aero_list" :key="aero.id_aeroport" :value="aero.id_aeroport">{{ aero.ville }}</option>
+
+                    </select>
                 
                 </div>
 
@@ -68,10 +69,10 @@
                         Aeroport arrivée
                     </div>
                     
-                    <div class="boxsaisieVA">
-                        <input class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_place">
+                    <select  v-model="selectAeroArr">
+                        <option v-for="aero in aero_list" :key="aero.id_aeroport" :value="aero.id_aeroport">{{ aero.ville }}</option>
 
-                    </div>
+                    </select>
                 
             </div>
 
@@ -84,10 +85,10 @@
                     
                     <div class="boxsaisieVA">
 
-                        <select id="choix">
-                            <option v-model= " " value="1"></option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
+                        <select  v-model="selectavion">
+
+                            <option v-for="avion in avion_list" :key="avion.avion_id" :value="avion.avion_id">{{ avion.avion_id }} : {{ avion.modele }}</option>
+
                         </select>
 
 
@@ -111,9 +112,15 @@
     
     <script>
 
-        import { post } from "../assets/utils/communications";
+        import { post, get } from "../assets/utils/communications";
+
         import { useDialog } from '../assets/utils/dialog.js';
         import dialogBox from '../components/dialogBox.vue';
+  
+
+
+
+
 
 
         export default {
@@ -123,6 +130,13 @@
                     temps: '',
                     disponibilite: '',
                     nb_place: '',
+                    aero_list: '',
+                    avion_list: '',
+                    selectAeroArr: '',
+                    selectAeroDep: '',
+                    selectavion: ''
+
+
                 };
 
             },
@@ -131,6 +145,16 @@
                 const dialog = useDialog();
                 return { dialog };
             },
+            async mounted(){
+            
+                const response = await get('aeroports');
+                this.aero_list = response.body;
+
+                const reponse2 = await get('avions');
+                this.avion_list = reponse2.body;
+
+            
+            },
 
             methods: {
         async ajVol() {
@@ -138,13 +162,16 @@
                 temps: this.temps,
                 disponibilite: this.disponibilite,
                 nb_place: this.nb_place,
+                FK_aeroport_arrivee: this.selectAeroArr,
+                FK_aeroport_depart: this.selectAeroDep,
+                FK_avion: this.selectavion
             };
 
             console.log("Données à envoyer :", body); // Vérification
 
             const reponse = await post('vols', body);
 
-            if(reponse.status===200){
+            if(reponse.status===201){
                 await this.dialog.alert('Ajout réussi !');
                 //!!!!!!! RAFRAICHIR LA PAGE
                 window.location.reload(true);
