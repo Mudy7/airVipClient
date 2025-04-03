@@ -83,14 +83,6 @@
                     </div>
                     
                     <div class="boxsaisieVA">
-
-                        <select id="choix">
-                            <option v-model= " " value="1"></option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
-                        </select>
-
-
                     </div>
                 
             </div>
