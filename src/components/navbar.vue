@@ -52,12 +52,19 @@
               v-if="isDropdownOpen"
               class="absolute right-0 mt-3 w-48 bg-white text-black shadow-lg rounded-lg py-2 z-50"
             >
-              <a href="/login" class="block px-4 py-2 hover:bg-gray-200"
-                >Se connecter</a
-              >
-              <a href="/login" class="block px-4 py-2 hover:bg-gray-200"
-                >Créer un compte</a
-              >
+              <div v-if="isAuthenticated">
+                <button @click="logout" class="block px-4 py-2 hover:bg-gray-200">
+                  Se déconnecter
+                </button>
+              </div>
+              <div v-else>
+                <a href="/login" class="block px-4 py-2 hover:bg-gray-200">
+                  Se connecter
+                </a>
+                <a href="/login" class="block px-4 py-2 hover:bg-gray-200">
+                  Créer un compte
+                </a>
+              </div>
             </div>
           </transition>
         </div>
@@ -67,30 +74,40 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      isDropdownOpen: false,
-    };
-  },
-  methods: {
-    toggleDropdown() {
-      this.isDropdownOpen = !this.isDropdownOpen;
+  export default {
+    data() {
+      return {
+        isDropdownOpen: false,
+        isAuthenticated: false,
+      };
     },
-    closeDropdown(event) {
-      // Close dropdown only if clicking outside
-      if (!this.$el.contains(event.target)) {
-        this.isDropdownOpen = false;
-      }
+    methods: {
+      toggleDropdown() {
+        this.isDropdownOpen = !this.isDropdownOpen;
+      },
+      logout() {
+        localStorage.removeItem("token");
+        this.isAuthenticated = false;
+        this.$router.push("/login");
+      },
+      checkAuth() {
+        this.isAuthenticated = !!localStorage.getItem("token");
+      },
     },
-  },
-  mounted() {
-    document.addEventListener("click", this.closeDropdown);
-  },
-  beforeUnmount() {
-    document.removeEventListener("click", this.closeDropdown);
-  },
-};
+    mounted() {
+      this.checkAuth();
+      window.addEventListener("storage", this.checkAuth); // Mise à jour si `localStorage` change
+    },
+    beforeUnmount() {
+      window.removeEventListener("storage", this.checkAuth);
+    },
+    watch: {
+      // Surveille localStorage et met à jour `isAuthenticated`
+      "$route"() {
+        this.checkAuth();
+      },
+    },
+  };
 </script>
 
 <style>

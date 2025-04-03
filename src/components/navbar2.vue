@@ -50,23 +50,28 @@
                 @click="toggleDropdown"
                 class="flex rounded-full bg-gray-200 p-2 cursor-pointer"
               >
-                <img
-                  src="../../public/assets/icons/profile.svg"
-                  class="h-4 w-4"
-                />
+                <img src="../../public/assets/icons/profile.svg" class="h-4 w-4" />
               </button>
 
+              <!-- Dropdown Menu -->
               <transition name="fade">
                 <div
                   v-if="isDropdownOpen"
                   class="absolute right-0 mt-3 w-48 bg-white text-black shadow-lg rounded-lg py-2 z-50"
                 >
-                  <a href="/login" class="block px-4 py-2 hover:bg-gray-200"
-                    >Se connecter</a
-                  >
-                  <a href="/login" class="block px-4 py-2 hover:bg-gray-200"
-                    >Créer un compte</a
-                  >
+                  <div v-if="isAuthenticated">
+                    <button @click="logout" class="block px-4 py-2 hover:bg-gray-200">
+                      Se déconnecter
+                    </button>
+                  </div>
+                  <div v-else>
+                    <a href="/login" class="block px-4 py-2 hover:bg-gray-200">
+                      Se connecter
+                    </a>
+                    <a href="/login" class="block px-4 py-2 hover:bg-gray-200">
+                      Créer un compte
+                    </a>
+                  </div>
                 </div>
               </transition>
             </div>
@@ -100,47 +105,67 @@
 </template>
 
 <script>
-import SearchBar from "./searchbarSolid.vue";
+  import SearchBar from "./searchbarSolid.vue";
 
-export default {
-  components: {
-    SearchBar,
-  },
-  data() {
-    return {
-      isDropdownOpen: false,
-      showSearch: false,
-      navHeight: 0,
-    };
-  },
-  methods: {
-    toggleDropdown() {
-      this.isDropdownOpen = !this.isDropdownOpen;
+  export default {
+    components: {
+      SearchBar,
     },
-    toggleSearch() {
-      this.showSearch = !this.showSearch;
+    data() {
+      return {
+        isDropdownOpen: false,
+        showSearch: false,
+        navHeight: 0,
+        isAuthenticated: false, // Ajout de la gestion de l'authentification
+      };
     },
-    closeSearch() {
-      this.showSearch = false;
+    methods: {
+      toggleDropdown() {
+        this.isDropdownOpen = !this.isDropdownOpen;
+      },
+      toggleSearch() {
+        this.showSearch = !this.showSearch;
+      },
+      closeSearch() {
+        this.showSearch = false;
+      },
+      closeDropdown(event) {
+        if (!this.$el.contains(event.target)) {
+          this.isDropdownOpen = false;
+        }
+      },
+      logout() {
+        localStorage.removeItem("token");
+        this.isAuthenticated = false;
+        this.$router.push("/login");
+      },
+      checkAuth() {
+        this.isAuthenticated = !!localStorage.getItem("token");
+      },
     },
-    closeDropdown(event) {
-      if (!this.$el.contains(event.target)) {
-        this.isDropdownOpen = false;
-      }
+    mounted() {
+      document.addEventListener("click", this.closeDropdown);
+      
+      this.$nextTick(() => {
+        const nav = this.$el.querySelector("nav");
+        this.navHeight = nav?.offsetHeight || 64;
+      });
+
+      this.checkAuth();
+      window.addEventListener("storage", this.checkAuth); // Mise à jour si `localStorage` change
     },
-  },
-  mounted() {
-    document.addEventListener("click", this.closeDropdown);
-    this.$nextTick(() => {
-      const nav = this.$el.querySelector("nav");
-      this.navHeight = nav?.offsetHeight || 64;
-    });
-  },
-  beforeUnmount() {
-    document.removeEventListener("click", this.closeDropdown);
-  },
-};
+    beforeUnmount() {
+      document.removeEventListener("click", this.closeDropdown);
+      window.removeEventListener("storage", this.checkAuth);
+    },
+    watch: {
+      "$route"() {
+        this.checkAuth();
+      },
+    },
+  };
 </script>
+
 
 <style scoped>
 /* Dropdown Fade */
