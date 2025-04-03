@@ -229,6 +229,7 @@ export default {
                 if(response.status===204){
                     await this.dialog.alert('Suppression réussie : aéroport '+id_aeroport);
                     //!!!!!!! RAFRAICHIR LA PAGE
+                    window.location.reload();
                 } else {
                     await this.dialog.alert('Erreur de suppression');
                 }
@@ -256,6 +257,7 @@ export default {
                 if(reponse.status===204){
                     await this.dialog.alert('Suppression réussie : avion '+id_avion);
                     //!!!!!!! RAFRAICHIR LA PAGE
+                    window.location.reload();
                 } else {
                     await this.dialog.alert('Erreur de suppression');
                 }
@@ -283,6 +285,7 @@ export default {
                 if(reponse.status===204){
                     await this.dialog.alert('Suppression réussie : vol '+id_vol);
                     //!!!!!!! RAFRAICHIR LA PAGE
+                    window.location.reload(true);
                 } else {
                     await this.dialog.alert('Erreur de suppression');
                 }
@@ -293,20 +296,7 @@ export default {
     async ajouterAeroport(){
         // ouvrir un nouveau ajouterAero
         this.showAjouterAero = true;
-        //!! changer les noms des éléments du DOM
-        /*const codeIata = AA_iata
-        const ville = AA_ville
-        const pays = AA_pays
-        const dist = AA_dist;
-
-        const body = '{"code_IATA":"'+codeIata+'", "ville":"'+ville+'", "pays":"'+pays+'", "distance_montreal":"'+dist+'"}';
-
-        // onSubmit()
-        {
-            const reponse = await post('aeroports', body);
-
-        }
-            */
+            
     },
     async ajouterVol(){
         // ouvrir un nouveau ajouterVol
