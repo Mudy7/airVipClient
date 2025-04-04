@@ -117,12 +117,6 @@
         import { useDialog } from '../assets/utils/dialog.js';
         import dialogBox from '../components/dialogBox.vue';
   
-
-
-
-
-
-
         export default {
             name:"VAouterVol",
             data() {
@@ -135,8 +129,6 @@
                     selectAeroArr: '',
                     selectAeroDep: '',
                     selectavion: ''
-
-
                 };
 
             },
@@ -158,13 +150,14 @@
 
             methods: {
         async ajVol() {
+            
             const body = {
                 temps: this.temps,
                 disponibilite: this.disponibilite,
                 nb_place: this.nb_place,
-                FK_aeroport_arrivee: this.selectAeroArr,
-                FK_aeroport_depart: this.selectAeroDep,
-                FK_avion: this.selectavion
+                fk_aeroport_arrivee: this.selectAeroArr,
+                fk_aeroport_depart: this.selectAeroDep,
+                fk_avion: this.selectavion
             };
 
             console.log("Données à envoyer :", body); // Vérification
@@ -182,7 +175,7 @@
     }
 }
 
-    </script>
+</script>
 
 
 

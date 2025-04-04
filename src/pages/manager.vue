@@ -24,9 +24,9 @@
                     <td>{{ vol.temps }}</td>
                     <td>{{ vol.disponibilite }}</td>
                     <td>{{ vol.nb_place }}</td>
-                    <td>{{ vol.FK_Aeroport_arrivee }}</td>
-                    <td>{{ vol.FK_Aeroport_depart }}</td>
-                    <td>{{ vol.FK_avion }}</td>
+                    <td>{{ vol.aeroportArrive.ville }}</td>
+                    <td>{{ vol.aeroportDepart.ville }}</td>
+                    <td>{{ vol.avion.modele }}</td>
                     <td>
                         <button class="edit-btn" @click="modifierVol(vol.vol_id)">Modifier</button>
                         <modifierVol v-if="showModifierVol" @fermer="showModifierVol = false" :id_vol="selectedId"/>
@@ -198,6 +198,7 @@ export default {
     this.aeroListe = await this.aeroportGet();
     this.avionListe = await this.avionGet();
     this.volListe = await this.volGet();
+    console.log(this.volListe[0].aeroportDepart.ville);
   },
   methods: {
     async aeroportGet(){
@@ -208,7 +209,6 @@ export default {
     async volGet(){
         const response = await get('vols');
         this.imgListe = response.body[0].avion.images || [];
-        console.log(this.imgListe);
         return response.body || []; 
     },
 
