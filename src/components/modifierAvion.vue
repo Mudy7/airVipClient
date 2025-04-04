@@ -31,6 +31,18 @@
                         </div>
                 
                 </div>
+
+                <div class="boxModifierAj">
+    
+                    <div class="titreSaisieAj">
+                        Image
+                    </div>
+
+                    <select>
+                        <option v-for="image in imgListe">{{image.url}}</option>
+                    </select>
+
+                </div>
     
                 <div>
                     <button @click="modAvion"class="boutonConfirmerAj">Confirmer</button>
@@ -56,6 +68,7 @@
         return {
             modele: '',
             capacite: '',
+            imgListe: [],
         };
     },
     async mounted(){
@@ -65,6 +78,8 @@
             this.modele = data.modele;
             this.capacite = data.capacite;
         }
+        const response = await get('vols');
+        this.imgListe = response.body[0].avion.images || [];
     },
     setup() {
         const dialog = useDialog();

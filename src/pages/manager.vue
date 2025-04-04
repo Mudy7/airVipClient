@@ -100,49 +100,49 @@
 </template>
 
 <style scoped>
-.container {
-    padding: 5px;
-    padding-top: 50px;
-    max-width: 1000px;
-    margin: auto;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-}
-th {
-    background-color: #f4f4f4;
-    text-align:center;
-}
-button {
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-}
-.edit-btn {
-    background-color: #ffc107;
-    color: black;
-    margin-right: 5px;
-}
-.delete-btn {
-    background-color: #dc3545;
-    color: white;
-}
-.add-btn {
-    background-color: aquamarine;
-    color: black;
-    margin-left:70%;
-    margin-top:30px;
-}
-button:hover {
-    opacity: 0.8;
-}
+    .container {
+        padding: 5px;
+        padding-top: 50px;
+        max-width: 1000px;
+        margin: auto;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #f4f4f4;
+        text-align:center;
+    }
+    button {
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+    }
+    .edit-btn {
+        background-color: #ffc107;
+        color: black;
+        margin-right: 5px;
+    }
+    .delete-btn {
+        background-color: #dc3545;
+        color: white;
+    }
+    .add-btn {
+        background-color: aquamarine;
+        color: black;
+        margin-left:70%;
+        margin-top:30px;
+    }
+    button:hover {
+        opacity: 0.8;
+    }
 </style>
 
 <script>
