@@ -1,4 +1,4 @@
-import jwtDecode from "jwt-decode"; 
+import { jwtDecode } from "jwt-decode";
 
 export function isAuthenticated() {
   const token = localStorage.getItem("token");
@@ -28,6 +28,19 @@ export function isAuthenticated() {
 
 export function getUserRole() {
   return localStorage.getItem("role") || null;
+}
+
+export function getUserIdFromToken() {
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+
+  try {
+    const decoded = jwtDecode(token);
+    return decoded.userId || decoded.sub || null;
+  } catch (err) {
+    console.error("Token decoding failed:", err);
+    return null;
+  }
 }
 
 export function logout() {
