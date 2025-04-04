@@ -111,6 +111,8 @@
 <script>
 import NavBar from "../components/navbar2.vue";
 import { get } from "../assets/utils/communications.js";
+import { getUserIdFromToken } from "../assets/utils/auth.js";
+import { post } from "../assets/utils/communications.js";
 
 export default {
   name: "PaymentPage",
@@ -160,9 +162,31 @@ export default {
         console.error("Erreur lors du chargement du vol:", error);
       }
     },
-    handleSubmit() {
-      alert("Paiement confirmé !");
-      // TODO: send payment data to backend
+    handleSubmit: async function () {
+      const email = getUserIdFromToken();
+
+      if (!email) {
+        alert("Utilisateur non authentifié");
+        return;
+      }
+
+      const isoString = new Date().toISOString().split(".")[0]; // removes milliseconds
+
+      const reservationPayload = {
+        email: email,
+        volId: parseInt(this.flightId),
+        dateReservation: isoString, // or this.departureDate if needed
+      };
+
+      try {
+        const { body } = await post("reservations", reservationPayload);
+        alert("Paiement confirmé et réservation enregistrée !");
+        console.log("Réservation créée :", body);
+        this.$router.push("/confirmation");
+      } catch (error) {
+        console.error("Erreur lors de la réservation :", error);
+        alert("Erreur lors de la réservation.");
+      }
     },
   },
 };

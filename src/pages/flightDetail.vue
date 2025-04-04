@@ -67,7 +67,7 @@
                   <span
                     class="relative inline-flex rounded-full h-2 w-2"
                     :class="
-                      flightData?.disponibilite === 'Disponible'
+                      flightData?.disponibilite === 'disponible'
                         ? 'bg-green-600'
                         : 'bg-red-600'
                     "
@@ -75,13 +75,13 @@
                 </span>
                 <p
                   :class="
-                    flightData?.disponibilite === 'Disponible'
+                    flightData?.disponibilite === 'disponible'
                       ? 'text-green-600'
                       : 'text-red-600'
                   "
                 >
                   {{
-                    flightData?.disponibilite === "Disponible"
+                    flightData?.disponibilite === "disponible"
                       ? "Disponible"
                       : "Non disponible"
                   }}
