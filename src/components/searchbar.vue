@@ -124,6 +124,13 @@ export default {
   box-shadow: none !important;
   border: none !important;
   padding: 0 !important;
+  color: white !important;
+}
+.p-autocomplete-placeholder-color {
+  color: whitesmoke !important;
+}
+.p-icon-spin {
+  color: white !important;
 }
 
 .p-inputtext,
@@ -151,6 +158,10 @@ export default {
   color: black !important;
 }
 
+.p-autocomplete-overlay {
+  background-color: white !important;
+  color: black !important;
+}
 .p-button:hover,
 .p-datepicker-select-year:hover,
 .p-datepicker-select-month:hover,
@@ -174,10 +185,13 @@ td.p-datepicker-day-cell.p-datepicker-today {
 }
 
 .placeholder-white::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(255, 255, 255, 1) !important;
 }
 
 .placeholder-black::placeholder {
   color: black !important;
+}
+input::placeholder {
+  color: #b0aeae !important;
 }
 </style>
