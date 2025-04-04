@@ -99,10 +99,6 @@
             <p>${{ price }}</p>
           </div>
           <div class="flex justify-between text-md">
-            <p>Frais de service</p>
-            <p>${{ fees }}</p>
-          </div>
-          <div class="flex justify-between text-md">
             <p>Taxe</p>
             <p>${{ priceTax.toFixed(2) }}</p>
           </div>
@@ -115,7 +111,8 @@
 
         <!-- Button pinned to bottom -->
         <button
-          class="w-full mt-5 text-md py-3 rounded-xl text-white font-medium bg-primary hover:opacity-90 transition duration-300"
+          class="w-full mt-5 text-md py-3 rounded-xl text-white font-medium bg-primary hover:opacity-90 transition duration-300 cursor-pointer"
+          @click="gotoPayment"
         >
           Réserver
         </button>
@@ -200,8 +197,8 @@ export default {
     calculatePrice() {
       if (!this.flightData) return;
       this.price = this.flightData.prix * this.flightData.temps;
-      this.priceTax = (this.price + this.fees) * 0.15;
-      this.priceTotal = this.price + this.fees + this.priceTax;
+      this.priceTax = this.price * 0.15;
+      this.priceTotal = this.price + this.priceTax;
     },
     capitalizeFirst(text) {
       if (!text) return "";
@@ -214,6 +211,15 @@ export default {
         year: "numeric",
         month: "long",
         day: "numeric",
+      });
+    },
+    gotoPayment() {
+      this.$router.push({
+        path: "/payment",
+        query: {
+          volId: this.flightData.vol_id,
+          departureDate: this.departureDate,
+        },
       });
     },
     switchImage(index) {

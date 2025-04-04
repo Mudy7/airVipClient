@@ -5,6 +5,7 @@ import Search from "./pages/search.vue";
 import Manager from "./pages/manager.vue";
 import Profil from "./pages/profil.vue";
 import Flight from "./pages/flightDetail.vue";
+import Pay from "./pages/pay.vue";
 
 const routes = [
   { path: "/", component: HomeView }, // Home Page
@@ -22,6 +23,7 @@ const routes = [
       }
     }
   },
+  { path: "/payment", component: Pay },
 ];
 
 const router = createRouter({

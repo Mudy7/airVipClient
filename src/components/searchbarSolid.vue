@@ -120,8 +120,21 @@ export default {
   background: transparent !important;
   padding: 0 !important;
 }
+.p-autocomplete-overlay {
+  background: white !important;
+  color: black !important;
+}
+
+.p-autocomplete-option-color {
+  color: black !important;
+}
 
 .solid-input :deep(.p-inputtext::placeholder) {
   color: rgba(0, 0, 0, 0.6) !important;
+}
+.p-autocomplete-option:not(.p-autocomplete-option-selected):not(
+    .p-disabled
+  ).p-focus {
+  color: black !important;
 }
 </style>
