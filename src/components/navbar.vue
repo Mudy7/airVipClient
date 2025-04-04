@@ -26,6 +26,9 @@
         <a href="#" class="text-white tracking-widest hover:text-gray-300"
           >Contact</a
         >
+        <a v-if="isAdmin" href="/manager" class="tracking-widest hover:text-gray-300"
+        >Manager</a
+        >
       </div>
 
       <!-- Profile & Actions (Right) -->
@@ -52,10 +55,13 @@
               v-if="isDropdownOpen"
               class="absolute right-0 mt-3 w-48 bg-white text-black shadow-lg rounded-lg py-2 z-50"
             >
-              <div v-if="isAuthenticated">
+              <div v-if="isAuthenticated" class="centered-div">
                 <button @click="logout" class="block px-4 py-2 hover:bg-gray-200">
                   Se déconnecter
                 </button>
+                <a href="/profil" class="block px-4 py-2 hover:bg-gray-200">
+                  Profil
+                </a>
               </div>
               <div v-else>
                 <a href="/login" class="block px-4 py-2 hover:bg-gray-200">
@@ -79,6 +85,7 @@
       return {
         isDropdownOpen: false,
         isAuthenticated: false,
+        isAdmin: false,
       };
     },
     methods: {
@@ -87,11 +94,18 @@
       },
       logout() {
         localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        localStorage.removeItem("userId");
         this.isAuthenticated = false;
+        this.isAdmin = false;
         this.$router.push("/login");
       },
       checkAuth() {
-        this.isAuthenticated = !!localStorage.getItem("token");
+        const token = localStorage.getItem("token");
+        const role = localStorage.getItem("role"); // Stocke le rôle dans le localStorage lors de la connexion
+        const userId = localStorage.getItem("userId");
+        this.isAuthenticated = !!token;
+        this.isAdmin = role === "admin";
       },
     },
     mounted() {
@@ -111,6 +125,12 @@
 </script>
 
 <style>
+.centered-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 /* Smooth fade animation */
 .fade-enter-active,
 .fade-leave-active {

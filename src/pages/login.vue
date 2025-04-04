@@ -51,10 +51,10 @@
         </div>
         <div v-if="selected_option === 'Se connecter'">
           <div class="pt-8 flex flex-col w-full">
-            <label class="text-start pb-2 text-sm">Adresse Courielle</label>
+            <label class="text-start pb-2 text-sm">Adresse Couriel</label>
             <input
               v-model="email"
-              placeholder="entrer votre adresse courielle"
+              placeholder="entrer votre adresse couriel"
               name="email"
               type="email"
               class="outline-none w-full rounded-md border-0 py-3 px-5 bg-[#ffffff] text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary"
@@ -95,10 +95,10 @@
         </div>
         <div v-else>
           <div class="pt-8 flex flex-col w-full">
-            <label class="text-start pb-2 text-sm">Adresse Courielle</label>
+            <label class="text-start pb-2 text-sm">Adresse Couriel</label>
             <input
               v-model="email"
-              placeholder="entrer votre adresse courielle"
+              placeholder="entrer votre adresse couriel"
               name="email"
               type="email"
               class="outline-none w-full rounded-md border-0 py-3 px-5 bg-[#ffffff] text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary"
@@ -111,22 +111,7 @@
               {{ emailErrorText }}</span
             >
           </div>
-          <div class="pt-5 flex flex-col w-full">
-            <label class="text-start pb-2 text-sm">Prénom</label>
-            <input
-              v-model="prenom"
-              placeholder="entrer votre prénom"
-              name="name"
-              class="outline-none w-full rounded-md border-0 py-3 px-5 bg-[#ffffff] text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary"
-              :class="{
-                'ring-red-400': prenomError,
-                'ring-gray-300': !prenomError,
-              }"
-            />
-            <span class="pt-1 text-[12px] text-red" v-if="prenomError">
-              {{ prenomErrorText }}</span
-            >
-          </div>
+          
           <div class="pt-5 flex flex-col w-full">
             <label class="text-start pb-2 text-sm">Nom</label>
             <input
@@ -207,103 +192,104 @@ import { HTTP_STATUS_CODES } from "../assets/utils/constants.js";
 export default {
   name: "CreateAccount",
   data() {
-    return {
-      email: "",
-      password: "",
-      selected_option: "Se connecter",
-      emailError: false,
-      passwordError: false,
-      emailErrorText: "",
-      passwordErrorText: "",
-      passwordError2: false,
-      firstName: "",
-      firstNameError: false,
-      firstNameErrorText: "",
-    };
-  },
+  return {
+    email: "", 
+    password: "",
+    selected_option: "Se connecter",
+    emailError: false,
+    passwordError: false,
+    emailErrorText: "",
+    passwordErrorText: "",
+    passwordError2: false,
+    firstName: "",
+    firstNameError: false,
+    firstNameErrorText: "",
+  };
+},
   methods: {
     handleButtonClick(option) {
       this.selected_option = option;
     },
     async submit_connect() {
-      const userData = {
-        adresse_courriel: this.email,
-        mot_de_passe: this.password,
-      };
+    const userData = {
+      adresse_courriel: this.email,
+      mot_de_passe: this.password
+    };
 
-      try {
-        const { status, body } = await post("utilisateurs/sign-in", userData);
+    try {
+      const { status, body } = await post("utilisateurs/sign-in", userData);
 
-        if (status === 200) {
-          console.log("Réponse:", body);
+      if (status === 200) { 
+        console.log("Réponse:", body);
 
-          // Stocker le token dans le localStorage
-          localStorage.setItem("token", body.token);
-          localStorage.setItem("role", body.role); // Si le backend renvoie aussi le rôle
+        // Stocker le token, le role et le id de l'utilisateur dans le localStorage
+        localStorage.setItem("token", body.token);
+        localStorage.setItem("role", body.role); 
+        localStorage.setItem("userId", body.id);
 
-          this.$router.push("/");
-        } else {
-          this.passwordError2 = true;
-          this.password = "";
-        }
-      } catch (error) {
-        console.error("Erreur de connexion:", error);
+        this.$router.push("/");
+      } else {
+        this.passwordError2 = true;
+        this.password = "";
       }
-    },
+    } catch (error) {
+      console.error("Erreur de connexion:", error);
+    }
+  },
     async submit_signup() {
-      // Reset all error states
-      this.emailError = false;
-      this.firstNameError = false;
-      this.nameError = false;
-      this.passwordError = false;
-      this.emailErrorText = "";
-      this.firstNameErrorText = "";
-      this.nameErrorText = "";
-      this.passwordErrorText = "";
+  // Reset all error states
+  this.emailError = false;
+  this.firstNameError = false;
+  this.nameError = false;
+  this.passwordError = false;
+  this.emailErrorText = "";
+  this.firstNameErrorText = "";
+  this.nameErrorText = "";
+  this.passwordErrorText = "";
 
-      // Validate fields
-      if (!this.email || !this.password || !this.name || !this.firstName) {
-        if (!this.email) {
-          this.emailError = true;
-          this.emailErrorText = "Email requis";
-        }
-        if (!this.firstName) {
-          this.firstNameError = true;
-          this.firstNameErrorText = "Prénom requis";
-        }
-        if (!this.name) {
-          this.nameError = true;
-          this.nameErrorText = "Nom requis";
-        }
-        if (!this.password) {
-          this.passwordError = true;
-          this.passwordErrorText = "Mot de passe requis";
-        }
-        return;
-      }
+  // Validate fields
+  if (!this.email || !this.password || !this.name || !this.firstName) {
+    if (!this.email) {
+      this.emailError = true;
+      this.emailErrorText = "Email requis";
+    }
+    if (!this.firstName) {
+      this.firstNameError = true;
+      this.firstNameErrorText = "Prénom requis";
+    }
+    if (!this.name) {
+      this.nameError = true;
+      this.nameErrorText = "Nom requis";
+    }
+    if (!this.password) {
+      this.passwordError = true;
+      this.passwordErrorText = "Mot de passe requis";
+    }
+    return;
+  }
 
-      const userData = {
-        adresse_courriel: this.email,
-        mot_de_passe: this.password,
-        nom: this.name,
-        prenom: this.firstName,
-        role: "client",
-      };
+  const userData = {
+    adresse_courriel: this.email,
+    mot_de_passe: this.password,
+    nom: this.name,
+    prenom: this.firstName,
+    role: 'client' 
+  };
 
-      try {
-        const response = await post("utilisateurs/sign-up", userData);
-        if (response.status === 201) {
-          this.$router.push("/login");
-        } else {
-          this.emailError = true;
-          this.emailErrorText = "Erreur d'inscription. Réessayez.";
-        }
-      } catch (error) {
-        console.error("Signup failed:", error.message);
-        this.emailError = true;
-        this.emailErrorText = "Erreur du serveur. Veuillez réessayer.";
-      }
-    },
+  try {
+    const response = await post("utilisateurs/sign-up", userData);
+    if (response.status === 201) {
+      this.$router.push("/login");
+    } else {
+      this.emailError = true;
+      this.emailErrorText = "Erreur d'inscription. Réessayez.";
+    }
+  } catch (error) {
+    console.error("Signup failed:", error.message);
+    this.emailError = true;
+    this.emailErrorText = "Cette adresse est déja associé à un compte. Veuillez réessayer.";
+  }
+},
   },
 };
 </script>
