@@ -13,8 +13,9 @@
           <label class="text-sm text-start md:mb-1 pr-2">De</label>
           <AutoComplete
             placeholder="Location"
-            :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
             v-model="from"
+            :suggestions="filteredCities"
+            @complete="searchCity"
             size="small"
             class="text-sm w-full text-black"
             required
@@ -31,10 +32,11 @@
           <label class="text-sm text-start md:mb-1 pr-2">À</label>
           <AutoComplete
             placeholder="Location"
-            :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
             v-model="to"
+            :suggestions="filteredCities"
+            @complete="searchCity"
             size="small"
-            class="text-sm w-full"
+            class="text-sm w-full text-black"
             required
           />
         </div>
@@ -78,6 +80,7 @@ import "@vuepic/vue-datepicker/dist/main.css";
 import DatePicker from "primevue/datepicker";
 import AutoComplete from "primevue/autocomplete";
 import { useRouter } from "vue-router";
+import { get } from "../assets/utils/communications.js";
 
 export default {
   name: "FlightSearchBar",
@@ -93,11 +96,18 @@ export default {
       from: "",
       to: "",
       departureDate: null,
+      cities: [],
+      filteredCities: [],
     };
   },
   setup() {
     const router = useRouter();
     return { router };
+  },
+  async mounted() {
+    const { body } = await get("aeroports/villes");
+    this.cities = body;
+    console.log(this.cities);
   },
   methods: {
     searchFlights() {
@@ -114,6 +124,12 @@ export default {
           departureDate: this.departureDate,
         },
       });
+    },
+    searchCity(event) {
+      const query = event.query.toLowerCase();
+      this.filteredCities = this.cities.filter((city) =>
+        city.toLowerCase().includes(query)
+      );
     },
   },
 };
