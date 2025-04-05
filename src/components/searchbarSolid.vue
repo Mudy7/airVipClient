@@ -12,9 +12,10 @@
           <AutoComplete
             placeholder="Location"
             v-model="from"
+            :suggestions="filteredCities"
+            @complete="searchCity"
             size="small"
-            class="text-sm w-full solid-input"
-            :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
+            class="text-sm w-full text-black"
             required
           />
         </div>
@@ -30,9 +31,10 @@
           <AutoComplete
             placeholder="Location"
             v-model="to"
+            :suggestions="filteredCities"
+            @complete="searchCity"
             size="small"
-            class="text-sm w-full solid-input"
-            :suggestions="['Paris', 'London', 'New York', 'Tokyo']"
+            class="text-sm w-full text-black"
             required
           />
         </div>
@@ -76,6 +78,7 @@ import "@vuepic/vue-datepicker/dist/main.css";
 import DatePicker from "primevue/datepicker";
 import AutoComplete from "primevue/autocomplete";
 import { useRouter } from "vue-router";
+import { get } from "../assets/utils/communications.js";
 
 export default {
   name: "FlightSearchBarSolid",
@@ -85,11 +88,18 @@ export default {
       from: "",
       to: "",
       departureDate: null,
+      filteredCities: [],
+      cities: [],
     };
   },
+
   setup() {
     const router = useRouter();
     return { router };
+  },
+  async mounted() {
+    const { body } = await get("aeroports/villes");
+    this.cities = body;
   },
   methods: {
     searchFlights() {
@@ -107,6 +117,12 @@ export default {
         },
       });
     },
+    searchCity(event) {
+      const query = event.query.toLowerCase();
+      this.filteredCities = this.cities.filter((city) =>
+        city.toLowerCase().includes(query)
+      );
+    },
   },
 };
 </script>
@@ -119,6 +135,9 @@ export default {
   border: none !important;
   background: transparent !important;
   padding: 0 !important;
+}
+.p-inputtext {
+  color: #000000 !important;
 }
 .p-autocomplete-overlay {
   background: white !important;
@@ -136,5 +155,32 @@ export default {
     .p-disabled
   ).p-focus {
   color: black !important;
+}
+:deep(.p-inputtext) {
+  color: black !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Placeholder color */
+:deep(.p-inputtext::placeholder) {
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Dropdown suggestions */
+:deep(.p-autocomplete-panel) {
+  background: white !important;
+  color: black !important;
+}
+
+:deep(.p-autocomplete-item) {
+  color: black !important;
+}
+
+:deep(.p-autocomplete-item.p-highlight) {
+  background-color: #fcd79b !important;
+  color: white !important;
 }
 </style>
