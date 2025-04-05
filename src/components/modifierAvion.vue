@@ -55,59 +55,59 @@
     <div class="dialog-bg" @click="$emit('fermer')"></div>
 </template>
     
-    <script>
-    import { get } from "../assets/utils/communications";
-    import { put } from "../assets/utils/communications";
-    import { useDialog } from '../assets/utils/dialog.js';
-    import dialogBox from '../components/dialogBox.vue';
+<script>
+import { get } from "../assets/utils/communications";
+import { put } from "../assets/utils/communications";
+import { useDialog } from '../assets/utils/dialog.js';
+import dialogBox from '../components/dialogBox.vue';
 
-    export default {
-        name:"modifierAvion",
-        props: ["id_avion"],
-    data() {
-        return {
-            modele: '',
-            capacite: '',
-            imgListe: [],
+export default {
+    name:"modifierAvion",
+    props: ["id_avion"],
+data() {
+    return {
+        modele: '',
+        capacite: '',
+        imgListe: [],
+    };
+},
+async mounted(){
+    if(this.id_avion){
+        const reponse = await get('avions/'+this.id_avion);
+        const data = reponse.body;
+        this.modele = data.modele;
+        this.capacite = data.capacite;
+    }
+    const response = await get('vols');
+    this.imgListe = response.body[0].avion.images || [];
+},
+setup() {
+    const dialog = useDialog();
+    return { dialog };
+},
+methods: {
+    async modAvion(id_avion) {
+        const body = {
+            modele: this.modele,
+            capacite: this.capacite,
         };
-    },
-    async mounted(){
-        if(this.id_avion){
-            const reponse = await get('avions/'+this.id_avion);
-            const data = reponse.body;
-            this.modele = data.modele;
-            this.capacite = data.capacite;
-        }
-        const response = await get('vols');
-        this.imgListe = response.body[0].avion.images || [];
-    },
-    setup() {
-        const dialog = useDialog();
-        return { dialog };
-    },
-    methods: {
-        async modAvion(id_avion) {
-            const body = {
-                modele: this.modele,
-                capacite: this.capacite,
-            };
 
-            console.log("Données à envoyer :", body); // Vérification
+        console.log("Données à envoyer :", body); // Vérification
 
-            const reponse = await put('avions/'+id_avion, body);
+        const reponse = await put('avions/'+id_avion, body);
 
-            if(reponse.status===200){
-                await this.dialog.alert('Modification réussie !');
-                //!!!!!!! RAFRAICHIR LA PAGE
-                window.location.reload(true);
-            } else {
-                await this.dialog.alert('Erreur de modification');
-            }
+        if(reponse.status===200){
+            await this.dialog.alert('Modification réussie !');
+            //!!!!!!! RAFRAICHIR LA PAGE
+            window.location.reload(true);
+        } else {
+            await this.dialog.alert('Erreur de modification');
         }
     }
-  }
-      
-    </script>
+}
+}
+    
+</script>
     
     
     
