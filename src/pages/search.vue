@@ -48,6 +48,9 @@
         </div>
       </div>
 
+      <div class="mt-[150px]" v-if="flights.length === 0">
+        <span class="text-3xl"> pas de vol trouver</span>
+      </div>
       <!-- Flight Cards (List for Desktop, Grid for Mobile) -->
       <section v-if="!isMobile">
         <div
@@ -310,48 +313,15 @@ export default {
       sortOptions: ["prix Descendant"],
       numberOfResults: 5,
       searchParams: [],
-      flights: [
-        {
-          id: 1,
-          images: [
-            "https://i.pinimg.com/736x/31/b3/52/31b3520c5ca15a76b1326a724ce75644.jpg",
-            "https://imageio.forbes.com/specials-images/imageserve/620a5ca7309af58b6b77d907/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds",
-          ],
-          currentImage: 1,
-          totalImages: 2,
-          title: "Vol Paris",
-          plane: "Bombardier Global Express",
-          from: "Montreal",
-          to: "Paris",
-          departureDate:
-            "Mon Mar 17 2025 00:00:00 GMT-0400 (Eastern Daylight Time)",
-          price: 3500,
-          duration: 8,
-        },
-        {
-          images: [
-            "https://i.pinimg.com/736x/1e/23/3c/1e233c7c1d073e8e4dfa216fa42ea65b.jpg",
-            "https://www.sunairjets.com/wp-content/uploads/2023/05/Gulfstream-GIV-SP-Private-Jet-Interior.png",
-          ],
-          id: 2,
-          currentImage: 1,
-          totalImages: 2,
-          title: "Vol à Tokyo",
-          plane: "Embraer Phenom 300",
-          from: "Paris",
-          to: "Tokyo",
-          departureDate:
-            "Mon Mar 17 2025 00:00:00 GMT-0400 (Eastern Daylight Time)",
-          price: 4500,
-          duration: 14,
-        },
-      ],
+      flights: [],
     };
   },
-  mounted() {
+  async mounted() {
     this.getSearchParams();
+    await this.fetchFlightsFromAPI();
     window.addEventListener("resize", this.handleResize);
   },
+
   beforeUnmount() {
     window.removeEventListener("resize", this.handleResize);
   },
@@ -385,6 +355,42 @@ export default {
       const departureDate = params.get("departureDate") || "Unknown Date";
 
       this.searchParams = [from, to, departureDate];
+    },
+    async fetchFlightsFromAPI() {
+      const from = this.searchParams[0];
+      const to = this.searchParams[1];
+
+      if (!from || !to || from === "Unknown" || to === "Unknown") {
+        console.warn("Missing or invalid city names for search.");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `http://localhost:8081/vols/search?from=${encodeURIComponent(
+            from
+          )}&to=${encodeURIComponent(to)}`
+        );
+        const body = await response.json();
+
+        // Update with actual backend data
+        this.flights = body.map((vol) => ({
+          id: vol.id,
+          from: vol.from,
+          to: vol.to,
+          duration: vol.temps,
+          price: vol.price,
+          departureDate: new Date(),
+          plane: vol.plane,
+          images: vol.images,
+          currentImage: 1,
+          totalImages: vol.images.length,
+        }));
+
+        this.numberOfResults = this.flights.length;
+      } catch (error) {
+        console.error("Erreur lors du chargement des vols :", error);
+      }
     },
     formatDate(dateString) {
       const date = new Date(dateString);
