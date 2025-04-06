@@ -13,7 +13,7 @@
                             Temps
                         </div>
                         <div class="boxsaisieVA">
-                            <input v-model="temps" class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_temps">
+                            <input v-model="temps" class = "barreSaisieVA" type="text" placeholder="Chargement..." id="VA_temps">
     
                         </div>
             
@@ -26,7 +26,7 @@
                         </div>
     
                         <div class="boxsaisieVA">
-                            <input v-model="disponibilite" class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_disponibilite">
+                            <input v-model="disponibilite" class = "barreSaisieVA" type="text" placeholder="Chargement..." id="VA_disponibilite">
     
                         </div>
                 
@@ -40,7 +40,7 @@
                         </div>
                         
                         <div class="boxsaisieVA">
-                            <input v-model="nb_place" class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_place">
+                            <input v-model="nb_place" class = "barreSaisieVA" type="text" placeholder="Chargement..." id="VA_place">
     
                         </div>
                     

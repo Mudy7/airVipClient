@@ -44,7 +44,7 @@
                     <th>Code IATA</th>
                     <th>Ville</th>
                     <th>Pays</th>
-                    <th>Distance (km)</th>
+                    <th>Distance de montréal (km)</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -103,7 +103,7 @@
     .container {
         padding: 5px;
         padding-top: 50px;
-        max-width: 1000px;
+        max-width: 1200px;
         margin: auto;
     }
     table {
