@@ -360,34 +360,38 @@ export default {
       const from = this.searchParams[0];
       const to = this.searchParams[1];
 
-      if (!from || !to || from === "Unknown" || to === "Unknown") {
-        console.warn("Missing or invalid city names for search.");
-        return;
-      }
-
       try {
-        const response = await fetch(
-          `http://localhost:8081/vols/search?from=${encodeURIComponent(
-            from
-          )}&to=${encodeURIComponent(to)}`
-        );
+        const response = await fetch("http://localhost:8081/vols");
         const body = await response.json();
 
-        // Update with actual backend data
-        this.flights = body.map((vol) => ({
-          id: vol.id,
-          from: vol.from,
-          to: vol.to,
-          duration: vol.temps,
-          price: vol.price,
-          departureDate: new Date(),
-          plane: vol.plane,
-          images: vol.images,
-          currentImage: 1,
-          totalImages: vol.images.length,
-        }));
+        let mappedFlights = body.map((vol) => {
+          const images = vol.avion.images.map((img) => img.url);
 
-        this.numberOfResults = this.flights.length;
+          return {
+            id: vol.vol_id,
+            from: vol.aeroportDepart.ville,
+            to: vol.aeroportArrive.ville,
+            duration: vol.temps,
+            price: vol.prix,
+            departureDate: new Date(), // placeholder if not stored yet
+            plane: vol.avion.modele,
+            images,
+            currentImage: 1,
+            totalImages: images.length,
+          };
+        });
+
+        // Filter client-side if params exist
+        if (from && to && from !== "Unknown" && to !== "Unknown") {
+          mappedFlights = mappedFlights.filter(
+            (f) =>
+              f.from.toLowerCase() === from.toLowerCase() &&
+              f.to.toLowerCase() === to.toLowerCase()
+          );
+        }
+
+        this.flights = mappedFlights;
+        this.numberOfResults = mappedFlights.length;
       } catch (error) {
         console.error("Erreur lors du chargement des vols :", error);
       }
