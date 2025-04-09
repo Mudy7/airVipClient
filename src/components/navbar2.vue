@@ -28,7 +28,12 @@
             <a href="/" class="tracking-widest hover:text-primary">Home</a>
             <a href="#" class="tracking-widest hover:text-primary">About</a>
             <a href="#" class="tracking-widest hover:text-primary">Contact</a>
-            <a v-if="isAdmin" href="/manager" class="tracking-widest hover:text-primary text-sm">Manager</a>
+            <a
+              v-if="isAdmin"
+              href="/manager"
+              class="tracking-widest hover:text-primary text-sm"
+              >Manager</a
+            >
           </div>
 
           <!-- Actions -->
@@ -51,7 +56,10 @@
                 @click="toggleDropdown"
                 class="flex rounded-full bg-gray-200 p-2 cursor-pointer"
               >
-                <img src="../../public/assets/icons/profile.svg" class="h-4 w-4" />
+                <img
+                  src="../../public/assets/icons/profile.svg"
+                  class="h-4 w-4"
+                />
               </button>
 
               <!-- Dropdown Menu -->
@@ -61,7 +69,10 @@
                   class="absolute right-0 mt-3 w-48 bg-white text-black shadow-lg rounded-lg py-2 z-50"
                 >
                   <div v-if="isAuthenticated" class="centered-div">
-                    <button @click="logout" class="block px-4 py-2 hover:bg-gray-200">
+                    <button
+                      @click="logout"
+                      class="block px-4 py-2 hover:bg-gray-200"
+                    >
                       Se déconnecter
                     </button>
                     <a href="/profil" class="block px-4 py-2 hover:bg-gray-200">
@@ -109,75 +120,74 @@
 </template>
 
 <script>
-  import SearchBar from "./searchbarSolid.vue";
+import SearchBar from "./searchbarSolid.vue";
 
-  export default {
-    components: {
-      SearchBar,
+export default {
+  components: {
+    SearchBar,
+  },
+  data() {
+    return {
+      isDropdownOpen: false,
+      showSearch: false,
+      navHeight: 0,
+      isAuthenticated: false, // Ajout de la gestion de l'authentification
+      isAdmin: false,
+    };
+  },
+  methods: {
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
     },
-    data() {
-      return {
-        isDropdownOpen: false,
-        showSearch: false,
-        navHeight: 0,
-        isAuthenticated: false, // Ajout de la gestion de l'authentification
-      };
+    toggleSearch() {
+      this.showSearch = !this.showSearch;
     },
-    methods: {
-      toggleDropdown() {
-        this.isDropdownOpen = !this.isDropdownOpen;
-      },
-      toggleSearch() {
-        this.showSearch = !this.showSearch;
-      },
-      closeSearch() {
-        this.showSearch = false;
-      },
-      closeDropdown(event) {
-        if (!this.$el.contains(event.target)) {
-          this.isDropdownOpen = false;
-        }
-      },
-      logout() {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-        localStorage.removeItem("userId");
-        this.isAuthenticated = false;
-        this.isAdmin = false;
-        this.$router.push("/login");
-      },
-      checkAuth() {
-        const token = localStorage.getItem("token");
-        const role = localStorage.getItem("role"); // Stocke le rôle dans le localStorage lors de la connexion
-        const userId = localStorage.getItem("userId");
-        this.isAuthenticated = !!token;
-        this.isAdmin = role === "admin";
-      },
+    closeSearch() {
+      this.showSearch = false;
     },
-    mounted() {
-      document.addEventListener("click", this.closeDropdown);
-      
-      this.$nextTick(() => {
-        const nav = this.$el.querySelector("nav");
-        this.navHeight = nav?.offsetHeight || 64;
-      });
+    closeDropdown(event) {
+      if (!this.$el.contains(event.target)) {
+        this.isDropdownOpen = false;
+      }
+    },
+    logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("userId");
+      this.isAuthenticated = false;
+      this.isAdmin = false;
+      this.$router.push("/login");
+    },
+    checkAuth() {
+      const token = localStorage.getItem("token");
+      const role = localStorage.getItem("role"); // Stocke le rôle dans le localStorage lors de la connexion
+      const userId = localStorage.getItem("userId");
+      this.isAuthenticated = !!token;
+      this.isAdmin = role === "admin";
+    },
+  },
+  mounted() {
+    document.addEventListener("click", this.closeDropdown);
 
+    this.$nextTick(() => {
+      const nav = this.$el.querySelector("nav");
+      this.navHeight = nav?.offsetHeight || 64;
+    });
+
+    this.checkAuth();
+    window.addEventListener("storage", this.checkAuth); // Mise à jour si `localStorage` change
+  },
+  beforeUnmount() {
+    document.removeEventListener("click", this.closeDropdown);
+    window.removeEventListener("storage", this.checkAuth);
+  },
+  watch: {
+    $route() {
       this.checkAuth();
-      window.addEventListener("storage", this.checkAuth); // Mise à jour si `localStorage` change
     },
-    beforeUnmount() {
-      document.removeEventListener("click", this.closeDropdown);
-      window.removeEventListener("storage", this.checkAuth);
-    },
-    watch: {
-      "$route"() {
-        this.checkAuth();
-      },
-    },
-  };
+  },
+};
 </script>
-
-
 
 <style scoped>
 .centered-div {
