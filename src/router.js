@@ -8,7 +8,7 @@ import Flight from "./pages/flightDetail.vue";
 import Pay from "./pages/pay.vue";
 import confirmation from "./pages/confirmation.vue";
 import { isAuthenticated } from "./assets/utils/auth.js";
-import about from "./pages/about.vue";
+import contact from "./pages/contact.vue";
 
 const routes = [
   { path: "/", component: HomeView }, // Home Page
@@ -45,7 +45,7 @@ const routes = [
       }
     },
   },
-  { path: "/about", component: about}
+  { path: "/contact", component: contact}
 ];
 
 const router = createRouter({

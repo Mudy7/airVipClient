@@ -26,8 +26,8 @@
             class="absolute left-1/2 transform -translate-x-1/2 hidden md:flex space-x-6 text-sm"
           >
             <a href="/" class="tracking-widest hover:text-primary">Home</a>
-            <a href="#" class="tracking-widest hover:text-primary">About</a>
-            <a href="#" class="tracking-widest hover:text-primary">Contact</a>
+
+            <a href="/contact" class="tracking-widest hover:text-primary">Contact</a>
             <a
               v-if="isAdmin"
               href="/manager"

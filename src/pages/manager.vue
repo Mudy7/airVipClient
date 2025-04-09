@@ -1,5 +1,6 @@
 <template>
     <Navbar class="w-full fixed top-0 left-0 z-20" />
+    <div class="pageManage">
     <div class="container">
         <button class="add-btn" @click="ajouterVol()">Ajouter Vol</button>
         <ajouterVol v-if="showAjouterVol" @fermer="showAjouterVol = false" />
@@ -95,24 +96,34 @@
             </tbody>
         </table>
     </div>
+</div>
 
     <dialogBox/>
 </template>
 
 <style scoped>
+
+    .pageManage{
+        background-color: #fff4df;
+    }
+
+
     .container {
         padding: 5px;
         padding-top: 50px;
         max-width: 1200px;
         margin: auto;
+
+        
     }
     table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 20px;
+        background-color: #ffffff;
     }
     th, td {
-        border: 1px solid #ddd;
+        border: 1px solid #cfcfcf;
         padding: 10px;
         text-align: center;
     }

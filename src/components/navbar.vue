@@ -20,10 +20,8 @@
         <a href="/" class="text-white tracking-widest hover:text-gray-300"
           >Home</a
         >
-        <a href="/about" class="text-white tracking-widest hover:text-gray-300"
-          >About</a
-        >
-        <a href="#" class="text-white tracking-widest hover:text-gray-300"
+
+        <a href="/contact" class="text-white tracking-widest hover:text-gray-300"
           >Contact</a
         >
         <a
