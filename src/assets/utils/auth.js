@@ -43,6 +43,8 @@ export function getUserIdFromToken() {
   }
 }
 
+console.log(getUserIdFromToken());
+
 export function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("userId");
