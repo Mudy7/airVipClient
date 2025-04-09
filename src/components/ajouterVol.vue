@@ -51,7 +51,7 @@
                     
                     
                     <div class="titreSaisieVA">
-                        Aeroport départ
+                        Aéroport départ
                     </div>
                     
                     <select v-model="selectAeroDep">
@@ -66,7 +66,7 @@
                     
                     
                     <div class="titreSaisieVA">
-                        Aeroport arrivée
+                        Aéroport arrivée
                     </div>
                     
                     <select  v-model="selectAeroArr">
@@ -74,7 +74,7 @@
 
                     </select>
                 
-            </div>
+                </div>
 
             <div class="boxModifierVA">
                     
@@ -96,93 +96,82 @@
                 
             </div>
     
-
-    
                 <div class="classButtonVA">
-
-    
-                <button @click="$emit('fermer')" class="btnAnnulerVA">Annuler</button>
-                <button @click="ajVol"class="boutonConfirmerVA">Confirmer</button>
+                    <button @click="$emit('fermer')" class="btnAnnulerVA">Annuler</button>
+                    <button @click="ajVol"class="boutonConfirmerVA">Confirmer</button>
                 </div>
             </div>    
         </div>
     </transition>
     <div class="dialog-bg" @click="$emit('fermer')"></div>
-    </template>
+</template>
     
-    <script>
+<script>
 
-        import { post, get } from "../assets/utils/communications";
+    import { post, get } from "../assets/utils/communications";
 
-        import { useDialog } from '../assets/utils/dialog.js';
-        import dialogBox from '../components/dialogBox.vue';
-  
+    import { useDialog } from '../assets/utils/dialog.js';
+    import dialogBox from '../components/dialogBox.vue';
 
-
-
-
-
-
-        export default {
-            name:"VAouterVol",
-            data() {
-                return {
-                    temps: '',
-                    disponibilite: '',
-                    nb_place: '',
-                    aero_list: '',
-                    avion_list: '',
-                    selectAeroArr: '',
-                    selectAeroDep: '',
-                    selectavion: ''
-
-
-                };
-
-            },
-
-            setup() {
-                const dialog = useDialog();
-                return { dialog };
-            },
-            async mounted(){
-            
-                const response = await get('aeroports');
-                this.aero_list = response.body;
-
-                const reponse2 = await get('avions');
-                this.avion_list = reponse2.body;
-
-            
-            },
-
-            methods: {
-        async ajVol() {
-            const body = {
-                temps: this.temps,
-                disponibilite: this.disponibilite,
-                nb_place: this.nb_place,
-                FK_aeroport_arrivee: this.selectAeroArr,
-                FK_aeroport_depart: this.selectAeroDep,
-                FK_avion: this.selectavion
+    export default {
+        name:"VAouterVol",
+        data() {
+            return {
+                temps: '',
+                disponibilite: '',
+                nb_place: '',
+                aero_list: '',
+                avion_list: '',
+                selectAeroArr: '',
+                selectAeroDep: '',
+                selectavion: ''
             };
 
-            console.log("Données à envoyer :", body); // Vérification
+        },
 
-            const reponse = await post('vols', body);
+        setup() {
+            const dialog = useDialog();
+            return { dialog };
+        },
+        async mounted(){
+        
+            const response = await get('aeroports');
+            this.aero_list = response.body;
 
-            if(reponse.status===201){
-                await this.dialog.alert('Ajout réussi !');
-                //!!!!!!! RAFRAICHIR LA PAGE
-                window.location.reload(true);
-            } else {
-                await this.dialog.alert('Erreur de l\'ajout');
+            const reponse2 = await get('avions');
+            this.avion_list = reponse2.body;
+
+        
+        },
+
+        methods: {
+            async ajVol() {
+                
+                const body = {
+                    temps: this.temps,
+                    disponibilite: this.disponibilite,
+                    nb_place: this.nb_place,
+                    fk_aeroport_arrivee: this.selectAeroArr,
+                    fk_aeroport_depart: this.selectAeroDep,
+                    fk_avion: this.selectavion
+                };
+
+                console.log("Données à envoyer :", body); // Vérification
+
+                const reponse = await post('vols', body);
+
+                if(reponse.status===201){
+                    await this.dialog.alert('Ajout réussi !');
+                    //!!!!!!! RAFRAICHIR LA PAGE
+                    window.location.reload(true);
+                } else {
+                    await this.dialog.alert('Erreur de l\'ajout');
+                }
             }
         }
     }
-}
 
-    </script>
+</script>
 
 
 
@@ -224,7 +213,7 @@
         padding:0px;
         z-index: 2;
         position: fixed;
-        top: 20%;
+        top: 10%;
         left: 50%;
         transform: translateX(-50%);
 
