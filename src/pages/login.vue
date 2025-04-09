@@ -162,12 +162,26 @@
               {{ passwordErrorText }}</span
             >
           </div>
+          <div v-if="signupGeneralError" class="pt-4 text-center">
+            <span class="text-sm text-red-500">
+              {{ signupGeneralError }}
+            </span>
+          </div>
           <div class="pt-7 flex">
             <button
               class="bg-primary btn-hover cursor-pointer rounded-lg text-white p-3 w-full"
               @click="submit_signup"
             >
               S'inscrire
+            </button>
+          </div>
+        </div>
+        <div v-if="accountCreated" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div class="bg-white rounded-lg p-6 shadow-lg text-center max-w-sm w-full">
+            <h2 class="text-xl font-semibold mb-2">Compte créé !</h2>
+            <p class="text-gray-700 mb-4">Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.</p>
+            <button class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-600" @click="closeDialog">
+              OK
             </button>
           </div>
         </div>
@@ -185,113 +199,125 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import { post } from "../assets/utils/communications.js";
-import { HTTP_STATUS_CODES } from "../assets/utils/constants.js";
+  import { ref } from "vue";
+  import { post } from "../assets/utils/communications.js";
+  import { HTTP_STATUS_CODES } from "../assets/utils/constants.js";
 
-export default {
-  name: "CreateAccount",
-  data() {
-  return {
-    email: "", 
-    password: "",
-    selected_option: "Se connecter",
-    emailError: false,
-    passwordError: false,
-    emailErrorText: "",
-    passwordErrorText: "",
-    passwordError2: false,
-    firstName: "",
-    firstNameError: false,
-    firstNameErrorText: "",
-  };
-},
-  methods: {
-    handleButtonClick(option) {
-      this.selected_option = option;
-    },
-    async submit_connect() {
-    const userData = {
-      adresse_courriel: this.email,
-      mot_de_passe: this.password
+  export default {
+    name: "CreateAccount",
+    data() {
+    return {
+      email: "", 
+      password: "",
+      selected_option: "Se connecter",
+      emailError: false,
+      passwordError: false,
+      emailErrorText: "",
+      passwordErrorText: "",
+      passwordError2: false,
+      firstName: "",
+      firstNameError: false,
+      firstNameErrorText: "",
+      accountCreated: false,
+      signupGeneralError: "",
     };
+  },
+    methods: {
+      handleButtonClick(option) {
+        this.selected_option = option;
+      },
+      async submit_connect() {
+        const userData = {
+          adresse_courriel: this.email,
+          mot_de_passe: this.password
+        };
 
-    try {
-      const { status, body } = await post("utilisateurs/sign-in", userData);
+        try {
+          const { status, body } = await post("utilisateurs/sign-in", userData);
 
-      if (status === 200) { 
-        console.log("Réponse:", body);
+          if (status === 200) { 
+            console.log("Réponse:", body);
 
-        // Stocker le token, le role et le id de l'utilisateur dans le localStorage
-        localStorage.setItem("token", body.token);
-        localStorage.setItem("role", body.role); 
-        localStorage.setItem("userId", body.id);
+            // Stocker le token, le role et le id de l'utilisateur dans le localStorage
+            localStorage.setItem("token", body.token);
+            localStorage.setItem("role", body.role); 
+            localStorage.setItem("userId", body.id);
 
-        this.$router.push("/");
-      } else {
-        this.passwordError2 = true;
+            this.$router.push("/");
+          } else {
+            this.passwordError2 = true;
+            this.password = "";
+          }
+        } catch (error) {
+          console.error("Erreur de connexion:", error);
+        }
+      },
+
+      closeDialog() {
+        this.accountCreated = false;
+        this.selected_option = "Se connecter";
+        this.email = "";
         this.password = "";
-      }
-    } catch (error) {
-      console.error("Erreur de connexion:", error);
-    }
-  },
-    async submit_signup() {
-  // Reset all error states
-  this.emailError = false;
-  this.firstNameError = false;
-  this.nameError = false;
-  this.passwordError = false;
-  this.emailErrorText = "";
-  this.firstNameErrorText = "";
-  this.nameErrorText = "";
-  this.passwordErrorText = "";
+        this.name = "";
+        this.firstName = "";
+      },
 
-  // Validate fields
-  if (!this.email || !this.password || !this.name || !this.firstName) {
-    if (!this.email) {
-      this.emailError = true;
-      this.emailErrorText = "Email requis";
-    }
-    if (!this.firstName) {
-      this.firstNameError = true;
-      this.firstNameErrorText = "Prénom requis";
-    }
-    if (!this.name) {
-      this.nameError = true;
-      this.nameErrorText = "Nom requis";
-    }
-    if (!this.password) {
-      this.passwordError = true;
-      this.passwordErrorText = "Mot de passe requis";
-    }
-    return;
-  }
+      async submit_signup() {
+        // Reset all error states
+        this.emailError = false;
+        this.firstNameError = false;
+        this.nameError = false;
+        this.passwordError = false;
+        this.emailErrorText = "";
+        this.firstNameErrorText = "";
+        this.nameErrorText = "";
+        this.passwordErrorText = "";
+        this.signupGeneralError = "";
 
-  const userData = {
-    adresse_courriel: this.email,
-    mot_de_passe: this.password,
-    nom: this.name,
-    prenom: this.firstName,
-    role: 'client' 
+        // Validate fields
+        if (!this.email || !this.password || !this.name || !this.firstName) {
+          if (!this.email) {
+            this.emailError = true;
+            this.emailErrorText = "Email requis";
+          }
+          if (!this.firstName) {
+            this.firstNameError = true;
+            this.firstNameErrorText = "Prénom requis";
+          }
+          if (!this.name) {
+            this.nameError = true;
+            this.nameErrorText = "Nom requis";
+          }
+          if (!this.password) {
+            this.passwordError = true;
+            this.passwordErrorText = "Mot de passe requis";
+          }
+          return;
+        }
+
+        const userData = {
+          adresse_courriel: this.email,
+          mot_de_passe: this.password,
+          nom: this.name,
+          prenom: this.firstName,
+          role: 'client' 
+        };
+
+        try {
+          const response = await post("utilisateurs/sign-up", userData);
+          if (response.status === 201) {
+            this.accountCreated = true;
+          } else {
+            this.emailError = true;
+            this.emailErrorText = "Erreur d'inscription. Réessayez.";
+          }
+        } catch (error) {
+          console.error("Signup failed:", error.message);
+          this.signupGeneralError = "Cette adresse est déjà associée à un compte ou le mot de passe est trop court (min. 8 caractères).";
+        }
+      },
+    },
   };
-
-  try {
-    const response = await post("utilisateurs/sign-up", userData);
-    if (response.status === 201) {
-      this.$router.push("/login");
-    } else {
-      this.emailError = true;
-      this.emailErrorText = "Erreur d'inscription. Réessayez.";
-    }
-  } catch (error) {
-    console.error("Signup failed:", error.message);
-    this.emailError = true;
-    this.emailErrorText = "Cette adresse est déja associé à un compte. Veuillez réessayer.";
-  }
-},
-  },
-};
 </script>
 
 <style scoped></style>
