@@ -4,37 +4,24 @@
         <div class="boxAjAvion dialog">
             <div>
                 <div class = "enteteAj">
-                    Ajouter un avion
+                    Ajouter une image
                 </div>
     
                 <div class="boxModifierAj">
     
                         <div class="titreSaisieAj">
-                            Modele
+                            adresse URL
                         </div>
                         <div class="boxsaisieAj">
-                            <input v-model="modele" class = "barreSaisieAj" type="text" placeholder="Entrez votre texte ici" id="AA_iata">
+                            <input v-model="url" class = "barreSaisieAj" type="text" placeholder="Entrez l'URL ici" id="AA_iata">
     
                         </div>
             
                 </div>
-    
-                <div class="boxModifierAj">
-    
-                        <div class="titreSaisieAj">
-                            Capacite
-                        </div>
-    
-                        <div class="boxsaisieAj">
-                            <input v-model="capacite" class = "barreSaisieAj" type="text" placeholder="Entrez un nombre" id="AA_ville">
-    
-                        </div>
-                
-                </div>
                 
     
                 <div>
-                    <button @click="ajAvion"class="boutonConfirmerAj">Confirmer</button>
+                    <button @click="ajImage"class="boutonConfirmerAj">Confirmer</button>
                 </div>
     
                 <button @click="$emit('fermer')" class="btnAnnuler">Annuler</button>
@@ -45,16 +32,16 @@
     </template>
 
     <script>
-    import { post } from "../assets/utils/communications";
+    import { post, put, get } from "../assets/utils/communications";
     import { useDialog } from '../assets/utils/dialog.js';
     import dialogBox from '../components/dialogBox.vue';
 
     export default {
-        name:"ajouterAvion",
+        name:"ajouterImage",
+        props: ["id_avion"],
         data() {
             return {
-                modele: '',
-                capacite: '',
+                url: '',
             };
         },
         setup() {
@@ -62,22 +49,25 @@
             return { dialog };
         },
         methods: {
-            async ajAvion() {
-                const body = {
-                    modele: this.modele,
-                    capacite: this.capacite,
-                };
+            async ajImage() {
 
-                console.log("Données à envoyer :", body); // Vérification
+                if(this.id_avion){
 
-                const reponse = await post('avions', body);
+                    const bodyImage = {
+                        url: this.url,
+                        avion_id: this.id_avion,
+                    };
 
-                if(reponse.status===200){
-                    await this.dialog.alert('Ajout réussi !');
-                    //!!!!!!! RAFRAICHIR LA PAGE
-                    window.location.reload(true);
-                } else {
-                    await this.dialog.alert('Erreur de l\'ajout');
+                    const reponse = await post('images', bodyImage);
+
+                    if(reponse.status===201){
+                        
+                        await this.dialog.alert('Ajout réussi !');
+                        window.location.reload(true);
+
+                    } else {
+                        await this.dialog.alert('Erreur de l\'ajout');
+                    }
                 }
             }
         }

@@ -38,7 +38,7 @@
                         Image
                     </div>
 
-                    <select>
+                    <select v-model="imageChoisie">
                         <option v-for="image in imgListe">{{image.url}}</option>
                     </select>
 
@@ -68,6 +68,7 @@ data() {
     return {
         modele: '',
         capacite: '',
+        imageChoisie: '',
         imgListe: [],
     };
 },
@@ -77,9 +78,8 @@ async mounted(){
         const data = reponse.body;
         this.modele = data.modele;
         this.capacite = data.capacite;
+        this.imgListe = data.images || [];
     }
-    const response = await get('vols');
-    this.imgListe = response.body[0].avion.images || [];
 },
 setup() {
     const dialog = useDialog();

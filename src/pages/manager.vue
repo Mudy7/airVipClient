@@ -82,12 +82,20 @@
                     <td>{{ avion.modele }}</td>
                     <td>{{ avion.capacite }}</td>
                     <td class="grid justify-items-center">
-                        <img
-                            :src="imgListe[0].url"
-                            class="w-40 h-25 object-cover transition duration-300 ease-in-out"
-                        />
+                        <!--<img :src="avion.images[0].url" style="width:40%; right:0"/>-->
+                        
+                        <table>
+                            <td v-for="image in avion.images" class="flex flex-row justify-center">
+                                <img
+                                    :src="image.url"
+                                    class="w-40 h-25 object-cover transition duration-300 ease-in-out"
+                                />
+                            </td>
+                        </table>
                     </td>
                     <td>
+                        <button class="image-btn" @click="ajouterImage(avion.avion_id)">Image +</button>
+                        <ajouterImage v-if="showAjouterImage" @fermer="showAjouterImage = false" :id_avion="selectedId"/>
                         <button class="edit-btn" @click="modifierAvion(avion.avion_id)">Modifier</button>
                         <modifierAvion v-if="showModifierAvion" @fermer="showModifierAvion = false" :id_avion="selectedId"/>
                         <button class="delete-btn" @click="supprimerAvion(avion.avion_id)">Supprimer</button>
@@ -137,12 +145,12 @@
         cursor: pointer;
     }
     .edit-btn {
-        background-color: #ffc107;
+        background-color: #ffd146;
         color: black;
         margin-right: 5px;
     }
     .delete-btn {
-        background-color: #dc3545;
+        background-color: #dc5360;
         color: white;
     }
     .add-btn {
@@ -150,6 +158,11 @@
         color: black;
         margin-left:70%;
         margin-top:30px;
+    }
+    .image-btn{
+        background-color: aquamarine;
+        color: black;
+        margin-right: 5px;
     }
     button:hover {
         opacity: 0.8;
@@ -171,6 +184,7 @@ import ajouterAvion from "../components/ajouterAvion.vue";
 import modifierVol from "../components/modifierVol.vue";
 import modifierAvion from "../components/modifierAvion.vue";
 import modifierAero from "../components/modifierAero.vue";
+import ajouterImage from "../components/ajouterImage.vue";
 
 export default {
   components: {
@@ -184,7 +198,8 @@ export default {
     ajouterAvion,
     modifierVol,
     modifierAvion,
-    modifierAero
+    modifierAero,
+    ajouterImage
   },
   setup() {
     const dialog = useDialog();
@@ -196,20 +211,20 @@ export default {
         aeroListe: [],
         volListe: [],
         avionListe: [],
-        imgListe: [],
+        imageListe: [],
         showAjouterAero: false,
         showAjouterVol: false,
         showAjouterAvion: false,
         showModifierAero: false,
         showModifierVol: false,
         showModifierAvion: false,
+        showAjouterImage: false,
     };
   },
   async mounted(){
     this.aeroListe = await this.aeroportGet();
     this.avionListe = await this.avionGet();
     this.volListe = await this.volGet();
-    console.log(this.volListe[0].aeroportDepart.ville);
   },
   methods: {
     async aeroportGet(){
@@ -219,7 +234,6 @@ export default {
     
     async volGet(){
         const response = await get('vols');
-        this.imgListe = response.body[0].avion.images || [];
         return response.body || []; 
     },
 
@@ -325,6 +339,11 @@ export default {
     async ajouterAvion(){
         // ouvrir un nouveau ajouterAvion
         this.showAjouterAvion = true;
+    },
+    async ajouterImage(id_avion){
+        // ouvrrir un nouveau ajouterImage
+        this.showAjouterImage = true;
+        this.selectedId = id_avion;
     },
 
     async modifierAeroport(id_aero){
