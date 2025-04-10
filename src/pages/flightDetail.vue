@@ -111,7 +111,7 @@
                   <span
                     class="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping"
                     :class="
-                      flightData?.disponibilite === 'Disponible'
+                      flightData?.disponibilite?.toLowerCase() === 'disponible'
                         ? 'bg-green-400'
                         : 'bg-red-400'
                     "
@@ -119,7 +119,7 @@
                   <span
                     class="relative inline-flex rounded-full h-2 w-2"
                     :class="
-                      flightData?.disponibilite === 'Disponible'
+                      flightData?.disponibilite?.toLowerCase() === 'disponible'
                         ? 'bg-green-600'
                         : 'bg-red-600'
                     "
@@ -127,13 +127,13 @@
                 </span>
                 <p
                   :class="
-                    flightData?.disponibilite === 'Disponible'
+                    flightData?.disponibilite?.toLowerCase() === 'disponible'
                       ? 'text-green-600'
                       : 'text-red-600'
                   "
                 >
                   {{
-                    flightData?.disponibilite === "Disponible"
+                    flightData?.disponibilite?.toLowerCase() === "disponible"
                       ? "Disponible"
                       : "Non disponible"
                   }}
@@ -161,10 +161,10 @@
           </div>
         </div>
 
-        <!-- Button pinned to bottom -->
         <button
-          class="w-full mt-5 text-md py-3 rounded-xl text-white font-medium bg-primary hover:opacity-90 transition duration-300 cursor-pointer"
+          class="w-full mt-5 text-md py-3 rounded-xl text-white font-medium bg-primary hover:opacity-90 transition duration-300 cursor-pointer disabled:cursor-not-allowed"
           @click="gotoPayment"
+          :disabled="flightData?.disponibilite?.toLowerCase() !== 'disponible'"
         >
           Réserver
         </button>

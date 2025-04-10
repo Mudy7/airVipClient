@@ -222,9 +222,9 @@ export default {
     };
   },
   async mounted(){
+    this.volListe = await this.volGet();
     this.aeroListe = await this.aeroportGet();
     this.avionListe = await this.avionGet();
-    this.volListe = await this.volGet();
   },
   methods: {
     async aeroportGet(){
