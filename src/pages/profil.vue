@@ -95,7 +95,7 @@
               <p><strong>Modèle d’avion:</strong> {{ res.vol.avion.modele }}</p>
               <p><strong>Départ:</strong> {{ res.vol.aeroportDepart.ville }} ({{ res.vol.aeroportDepart.code_IATA }})</p>
               <p><strong>Destination:</strong> {{ res.vol.aeroportArrive.ville }} ({{ res.vol.aeroportArrive.code_IATA }})</p>
-              <p><strong>Prix:</strong> {{ res.vol.prix }}/h $</p>
+              <p><strong>Prix:</strong> {{ res.vol.prix }} $</p>
               <p><strong>Date de réservation:</strong> {{ new Date(res.dateReservation).toLocaleString() }}</p>
 
               <button @click="annulerReservation(res.id)"
