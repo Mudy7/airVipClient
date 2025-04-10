@@ -119,7 +119,7 @@
                   <span
                     class="relative inline-flex rounded-full h-2 w-2"
                     :class="
-                      flightData?.disponibilite === 'disponible'
+                      flightData?.disponibilite === 'Disponible'
                         ? 'bg-green-600'
                         : 'bg-red-600'
                     "
@@ -127,13 +127,13 @@
                 </span>
                 <p
                   :class="
-                    flightData?.disponibilite === 'disponible'
+                    flightData?.disponibilite === 'Disponible'
                       ? 'text-green-600'
                       : 'text-red-600'
                   "
                 >
                   {{
-                    flightData?.disponibilite === "disponible"
+                    flightData?.disponibilite === "Disponible"
                       ? "Disponible"
                       : "Non disponible"
                   }}
@@ -287,6 +287,7 @@ export default {
           this.notFound = true;
         } else {
           this.flightData = body;
+          console.log(this.flightData);
           this.images = body.avion.images
             .sort((a, b) => a.orderIndex - b.orderIndex)
             .map((img) => img.url);
