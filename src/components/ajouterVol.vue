@@ -26,8 +26,12 @@
                         </div>
     
                         <div class="boxsaisieVA">
-                            <input v-model="disponibilite" class = "barreSaisieVA" type="text" placeholder="Entrez votre texte ici" id="VA_disponibilite">
-    
+                            <select v-model="selectDispo">
+
+                                <option value="Disponible">Disponible</option>
+                                <option value="Non Disponible">Non Disponible</option>
+
+                            </select>
                         </div>
                 
                 </div>
@@ -149,7 +153,7 @@
                 
                 const body = {
                     temps: this.temps,
-                    disponibilite: this.disponibilite,
+                    disponibilite: this.selectDispo,
                     nb_place: this.nb_place,
                     fk_aeroport_arrivee: this.selectAeroArr,
                     fk_aeroport_depart: this.selectAeroDep,
