@@ -45,7 +45,7 @@
                 </div>
     
                 <div>
-                    <button @click="modAvion"class="boutonConfirmerAj">Confirmer</button>
+                    <button @click="modAvion(this.id_avion)"class="boutonConfirmerAj">Confirmer</button>
                 </div>
     
                 <button @click="$emit('fermer')" class="btnAnnuler">Annuler</button>
@@ -90,6 +90,7 @@ methods: {
         const body = {
             modele: this.modele,
             capacite: this.capacite,
+            image: this.imageChoisie,
         };
 
         console.log("Données à envoyer :", body); // Vérification
